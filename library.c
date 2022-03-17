@@ -1,18 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "library.h"
 #include "book_management.h"
-
-#define bookFile "books.txt"
+#include "library.h"
 
 //initialize the library
 //read books from txt
-void initLibrary(char* bookFile, BookList* theBook){
+void initLibrary(BookList theBook){
+	theBook.list = (Book*)malloc(sizeof(Book));
+	theBook.list->next = NULL;
+
 	FILE* file;
-	file = fopen(bookFile, "r");
+	file = fopen("books.txt", "r");
 	if (file != NULL){
-		theBook.length = boad_books(file);
+		theBook.length = load_books(file, theBook.list);
 	}
 	fclose(file);
 }
@@ -23,45 +24,75 @@ void initLibrary(char* bookFile, BookList* theBook){
 //}
 //
 ////load books from txt if the book file "books.txt" exist and store them to the book list
-int load_books(FILE* books, BookList* theBook){
+int load_books(FILE* books, Book* book){
 	int numbooks = 0;
-	BookList* tmp;
+	Book* tmp;
 
 	while(!feof(books)){
-		tmp = tailInsert(theBook);
-		fscanf(books, "%d %s %s %d %d", &(tmp->id), &(tmp->title), &(tmp->authors), &(tmp->year), &(tmp->copies));
+		tmp = tailInsert(book);
+		fscanf(books, "%u %s %s %u %u", &(tmp->id), (tmp->title), (tmp->authors), &(tmp->year), &(tmp->copies));
 		numbooks ++;
 	}
 
 	return numbooks;
 }
+
+//delete a node from the tail of the book list
+//void tailDelete(BookList* theBook){
+//	Book* pre = theBook->list;
+//	Book* L = theBook->list;
+//    for (int i = 0; i < theBook->length; i ++){
+//    	pre = pre->next;
+//    }
+//    Book* tmp = L;
+//    if (theBook->length>1){
+//        for (int i = 0; i < theBook->length-1; i++){
+//            tmp = tmp->next;
+//        }
+//    }
+//    tmp->next = NULL;
+//    free(pre);
+//    pre = NULL;
+//    theBook->length --;
+//}
 //
 ////exit the library
 //void exitLibrary(BookList* theBook){
-//	//
+//	while(theBook->length > 0){
+//		tailDelete(theBook);
+//	}
+//	free(theBook->list);
+//	theBook->list = NULL; 
 //}
-//
 
 //insert a node at the tail of the book list and return the pointer pointing the last node
-BookList* tailInsert(BookList* theBook){
-	BookList* tmp = (BookList*)malloc(sizeof(BookList));
-	tmp = theBook;
+Book* tailInsert(Book* book){
+	Book* tmp = book;
 	while (tmp->next != NULL){
 		tmp = tmp->next;
 	}
-	BookList* new = (BookList*)malloc(sizeof(BookList));
+	Book* new = (Book*)malloc(sizeof(Book));
 	new->next = NULL;
 	tmp->next = new;
 
-	return tmp;
+	return new;
+}
+
+//遍历链表 用于测试
+void showList(Book* book, BookList theBook){
+	Book* tmp = book->next;
+	while(tmp != NULL){
+		printf("%u %s %s %u %u", (tmp->id), (tmp->title), (tmp->authors), (tmp->year), (tmp->copies));
+        tmp = tmp->next;
+    }
+    printf("The number of books is %u", theBook.length);	
 }
 
 ////the library main menu
 void libraryMenu(void){
 	int libraryOpen = 1;
-	BookList* theBook = (BookList*)malloc(sizeof(BookList));
-	theBook->next = NULL;	
-	initLibrary(bookFile, theBook);
+	BookList theBook;
+	initLibrary(theBook);
 
 	while (libraryOpen){
 		printf(" *============================================*\n");
@@ -82,7 +113,10 @@ void libraryMenu(void){
 		printf(" | * - * - * - * - * - * - * - * - * - * -  * |\n");
 		printf(" *============================================*\n");
 
+		//exitLibrary(theBook);
+		//free(theBook);
 		return;
 	}
 }
 
+      
