@@ -7,15 +7,16 @@
 //initialize the library
 //read books from txt
 void initLibrary(BookList theBook){
-	theBook.list = (Book*)malloc(sizeof(Book));
-	theBook.list->next = NULL;
+	FILE* fp;
 
-	FILE* file;
-	file = fopen("books.txt", "r");
-	if (file != NULL){
-		theBook.length = load_books(file, theBook.list);
+	fp = fopen("books.txt", "r");
+	if (!fp){
+		printf("error");
+		exit(1);
+	}else{
+		load_books(fp, theBook);
 	}
-	fclose(file);
+	fclose(fp);
 }
 //
 ////create a file to store the database of books
@@ -24,17 +25,16 @@ void initLibrary(BookList theBook){
 //}
 //
 ////load books from txt if the book file "books.txt" exist and store them to the book list
-int load_books(FILE* books, Book* book){
-	int numbooks = 0;
+int load_books(FILE* fp, BookList theBook){
 	Book* tmp;
 
-	while(!feof(books)){
-		tmp = tailInsert(book);
-		fscanf(books, "%u %s %s %u %u", &(tmp->id), (tmp->title), (tmp->authors), &(tmp->year), &(tmp->copies));
-		numbooks ++;
+	while(!feof(fp)){
+		tmp = tailInsert(theBook);
+		fscanf(fp, "%u %s %s %u %u", &(tmp->id), (tmp->title), (tmp->authors), &(tmp->year), &(tmp->copies));
+		fgetc(fp);
 	}
 
-	return numbooks;
+	return 0;
 }
 
 //delete a node from the tail of the book list
@@ -42,7 +42,7 @@ int load_books(FILE* books, Book* book){
 //	Book* pre = theBook->list;
 //	Book* L = theBook->list;
 //    for (int i = 0; i < theBook->length; i ++){
-//    	pre = pre->next;
+//     	pre = pre->next;
 //    }
 //    Book* tmp = L;
 //    if (theBook->length>1){
@@ -55,7 +55,7 @@ int load_books(FILE* books, Book* book){
 //    pre = NULL;
 //    theBook->length --;
 //}
-//
+
 ////exit the library
 //void exitLibrary(BookList* theBook){
 //	while(theBook->length > 0){
@@ -66,14 +66,15 @@ int load_books(FILE* books, Book* book){
 //}
 
 //insert a node at the tail of the book list and return the pointer pointing the last node
-Book* tailInsert(Book* book){
-	Book* tmp = book;
+Book* tailInsert(BookList theBook){
+	Book* tmp = theBook.list;
 	while (tmp->next != NULL){
 		tmp = tmp->next;
 	}
 	Book* new = (Book*)malloc(sizeof(Book));
 	new->next = NULL;
 	tmp->next = new;
+	theBook.length ++;
 
 	return new;
 }
@@ -92,7 +93,10 @@ void showList(Book* book, BookList theBook){
 void libraryMenu(void){
 	int libraryOpen = 1;
 	BookList theBook;
+	theBook.list = (Book*)malloc(sizeof(Book));
+	theBook.list->next = NULL;
 	initLibrary(theBook);
+	showList(theBook.list, theBook);
 
 	while (libraryOpen){
 		printf(" *============================================*\n");

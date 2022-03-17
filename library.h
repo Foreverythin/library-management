@@ -8,7 +8,7 @@ void initLibrary(BookList theBook);
 //void exitLibrary(BookList* theBook);
 
 //insert a node at the tail of the book list and return the pointer pointing the last node
-Book* tailInsert(Book* book);
+Book* tailInsert(BookList theBook);
 void showList(Book* book, BookList theBook);
 //
 //void tailDelete(BookList theBook);
