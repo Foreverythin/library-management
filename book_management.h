@@ -37,8 +37,8 @@ typedef struct _StudentList{
     unsigned int length;
 }StudentList;
 
-// char* librarianUsername;
-// char* librarianPassword;
+char* librarianUsername;
+char* librarianPassword;
 
 
 //saves the database of books in the specified file

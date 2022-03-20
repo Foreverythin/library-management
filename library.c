@@ -24,16 +24,16 @@ void initLibrary(BookList* theBook, StudentList* theStudent) {
         fclose(fp_b);
     }
     
-    // FILE* fp_l = fopen("librarian.txt", "r");
-    // if (!fp_l){
-    //     printf("error opening of librarian.txt\n");
-    // }else{
-    //     librarianUsername = (char*)malloc(sizeof(char));
-    //     librarianPassword = (char*)malloc(sizeof(char));
-    //     fscanf(fp_l, "%s %s", librarianUsername, librarianPassword);
-    //     printf("%s %s\n", librarianUsername, librarianPassword);
-    // }
-    // fclose(fp_l);
+    FILE* fp_l = fopen("librarian.txt", "r");
+    if (!fp_l){
+        printf("error opening of librarian.txt\n");
+    }else{
+        librarianUsername = (char*)malloc(sizeof(char));
+        librarianPassword = (char*)malloc(sizeof(char));
+        fscanf(fp_l, "%s %s", librarianUsername, librarianPassword);
+        printf("%s %s\n", librarianUsername, librarianPassword);
+        fclose(fp_l);    
+    }
 
     FILE* fp_s = fopen("students.txt", "r");
     if (!fp_s){
