@@ -3,6 +3,7 @@
 
 #include "book_management.h"
 #include "library.h"
+#include "librarian.h"
 
 // initialize the library, load data to the data structure
 void initLibrary(BookList* theBook, StudentList* theStudent) {
@@ -28,8 +29,8 @@ void initLibrary(BookList* theBook, StudentList* theStudent) {
     if (!fp_l){
         printf("error opening of librarian.txt\n");
     }else{
-        librarianUsername = (char*)malloc(sizeof(char));
-        librarianPassword = (char*)malloc(sizeof(char));
+        char* librarianUsername = (char*)malloc(sizeof(char));
+        char* librarianPassword = (char*)malloc(sizeof(char));
         fscanf(fp_l, "%s %s", librarianUsername, librarianPassword);
         printf("%s %s\n", librarianUsername, librarianPassword);
         fclose(fp_l);    
@@ -155,12 +156,17 @@ void load_students(FILE* file, Student* students, StudentList* theStudent){
 
 // display the book list
 void showListBooks(Book* books, unsigned int length){
-	Book* tmp = books->next;
-	while(tmp != NULL){
-		printf("%u %s %s %u %u\n", tmp->id, tmp->title, tmp->authors, tmp->year, tmp->copies);
-        tmp = tmp->next;
+    if (length == 0){
+        printf("\nThere is no books in the library!\n");
+    }else{
+        printf("\n| ID |    TITLE    |    AUTHOR    | YEAR | COPIES |\n");
+        Book* tmp = books->next;
+        while(tmp != NULL){
+            printf("|%3u |%10s   |%10s    |%5u |%7u |\n", tmp->id, tmp->title, tmp->authors, tmp->year, tmp->copies);
+            tmp = tmp->next;
+        }
+        printf("\nThere are totally %u kinds of books.\n", length);
     }
-    printf("The number of books is %u\n", length);	
 }
 
 //display the student list
@@ -173,6 +179,17 @@ void showListStudents(Student* students, unsigned int length){
     printf("The number of students is %u\n", length);
 }
 
+// store books to txt
+int store_books(FILE* file, Book* books, BookList* theBook){
+    Book* tmp = books;
+    for (int i = 0; i < theBook->length; i ++){
+        tmp = tmp->next;
+        fprintf(file, "%u %s %s %u %u\n", tmp->id, tmp->title, tmp->authors, tmp->year, tmp->copies);
+    }
+
+    return 0;
+}
+
 // the library main menu
 void libraryMenu(void){
     int libraryOpen = 1;
@@ -181,6 +198,9 @@ void libraryMenu(void){
     initLibrary(theBook, theStudent);
     
     while (libraryOpen) {
+        int option ;
+
+        printf("\n");
         printf(" *============================================*\n");
         printf(" | * - * - * Welcome to Our Library * - * - * |\n");
         printf(" | *                                        * |\n");
@@ -199,9 +219,46 @@ void libraryMenu(void){
         printf(" | * - * - * - * - * - * - * - * - * - * -  * |\n");
         printf(" *============================================*\n");
 
+        printf("\nChoose one option(1-6):\n");
+        scanf("%d", &option);
+        switch (option)
+        {
+        case 1:
+            printf("\n| * - * - * Librarian login * - * - * |\n");
+            librarianMenu();
+            break;
+        case 2:
+            printf("\n| * - * - * Students login * - * - * |\n");
+            break;
+        case 3:
+            printf("\n| * - * - * Register an account * - * - * |\n");
+            break;
+        case 4:
+            printf("\n| * - * - * Search for a book * - * - * |\n");
+            break;
+        case 5:
+            printf("\n    | * - * - * Display all books * - * - * |\n");
+            showListBooks(theBook->list, theBook->length);
+            break;
+        case 6:
+            printf("Bye~\n");
+            return;
+        default:
+            printf("Unknown option");
+            break;
+        }
+
+        FILE* fp_b = fopen("books.txt", "w");
+        if (!fp_b){
+            printf("wrong to store!\n");
+        }else{
+            store_books(fp_b, theBook->list, theBook);
+            fclose(fp_b);
+        }
+
         // exitLibrary(theBook);
         // free(theBook);
-        return;
     }
+    
     return;
 }

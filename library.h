@@ -1,3 +1,6 @@
+#ifndef LIBRARY_GUARD__H 
+#define LIBRARY_GUARD__H
+
 //the function of the library menu
 void libraryMenu(void);
 
@@ -13,8 +16,6 @@ void tailInsertBooks(Book* books);
 //insert a node at the tail of the student list and return the pointer pointing the last node
 void tailInsertStudents(Student* students);
 
-void showListBooks(Book* books, unsigned int length);
-
 //
 void showListStudents(Student* Student, unsigned int length);
 
@@ -26,3 +27,5 @@ void tailDeleteStudents(Student* students, StudentList* theStudent);
 
 //
 //void exitLibrary(BookList theBook);
+
+#endif
