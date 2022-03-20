@@ -117,7 +117,7 @@ void libraryMenu(void){
 
         printf("\n");
         printf(" *============================================*\n");
-        printf(" | * - * - * Welcome to Our Library * - * - * |\n");
+        printf(" | * - * - * THE LIBRARY MAIN MENU  * - * - * |\n");
         printf(" | *                                        * |\n");
         printf(" | | [1] LOG IN FOR LIBRARIANS              | |\n");
         printf(" | *                                        * |\n");
@@ -139,9 +139,8 @@ void libraryMenu(void){
         switch (option)
         {
         case 1:
-            printf("\n| * - * - * Librarian login * - * - * |\n");
-            printf("%s\n", librarianUsername);
-            // librarianMenu();
+            printf("\n    | * - * - * Librarian login * - * - * |\n");
+            librarianMenu(theBook, theStudent);
             break;
         case 2:
             printf("\n| * - * - * Students login * - * - * |\n");
