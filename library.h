@@ -2,17 +2,27 @@
 void libraryMenu(void);
 
 //initialize the library
-void initLibrary(BookList* theBook);
+void initLibrary(BookList* theBook, StudentList* thstudent);
 
 //exit the library
 //void exitLibrary(BookList* theBook);
 
 //insert a node at the tail of the book list and return the pointer pointing the last node
-void tailInsert(Book* books);
+void tailInsertBooks(Book* books);
 
-void showList(Book* books, unsigned int length);
+//insert a node at the tail of the student list and return the pointer pointing the last node
+void tailInsertStudents(Student* students);
+
+void showListBooks(Book* books, unsigned int length);
+
 //
-void tailDelete(Book* books, BookList* theBook);
+void showListStudents(Student* Student, unsigned int length);
+
+//
+void tailDeleteBooks(Book* books, BookList* theBook);
+
+//
+void tailDeleteStudents(Student* students, StudentList* theStudent);
 
 //
 //void exitLibrary(BookList theBook);
