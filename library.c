@@ -2,8 +2,12 @@
 #include <stdlib.h>
 
 #include "book_management.h"
+#include "listManagement.h"
 #include "library.h"
 #include "librarian.h"
+
+char* librarianUsername;
+char* librarianPassword;
 
 // initialize the library, load data to the data structure
 void initLibrary(BookList* theBook, StudentList* theStudent) {
@@ -29,8 +33,8 @@ void initLibrary(BookList* theBook, StudentList* theStudent) {
     if (!fp_l){
         printf("error opening of librarian.txt\n");
     }else{
-        char* librarianUsername = (char*)malloc(sizeof(char));
-        char* librarianPassword = (char*)malloc(sizeof(char));
+        librarianUsername = (char*)malloc(sizeof(char));
+        librarianPassword = (char*)malloc(sizeof(char));
         fscanf(fp_l, "%s %s", librarianUsername, librarianPassword);
         printf("%s %s\n", librarianUsername, librarianPassword);
         fclose(fp_l);    
@@ -44,71 +48,6 @@ void initLibrary(BookList* theBook, StudentList* theStudent) {
         showListStudents(theStudent->list, theStudent->length);
         fclose(fp_s);
     }
-}
-
-// insert a new node to the book list
-void tailInsertBooks(Book* books){
-    Book* tmp = books;
-	while (tmp->next != NULL){
-		tmp = tmp->next;
-	}
-	Book* new = (Book*)malloc(sizeof(Book));
-    new->title = (char*)malloc(sizeof(char));
-    new->authors = (char*)malloc(sizeof(char));
-	new->next = NULL;
-	tmp->next = new;
-}
-
-// insert a new node to the student list
-void tailInsertStudents(Student* students){
-    Student* tmp = students;
-    while (tmp->next != NULL){
-        tmp = tmp->next;
-    }
-    Student* new = (Student*)malloc(sizeof(Student));
-    new->name = (char*)malloc(sizeof(char));
-    new->username = (char*)malloc(sizeof(char));
-    new->password = (char*)malloc(sizeof(char));
-    new->next = NULL;
-    tmp->next = new;
-}
-
-// delete a node from the tail of the list
-void tailDeleteBooks(Book* books, BookList* theBook){
-	Book* pre = books;
-	Book* L = books;
-   for (int i = 0; i < theBook->length; i ++){
-    	pre = pre->next;
-   }
-   Book* tmp = L;
-   if (theBook->length>1){
-       for (int i = 0; i < theBook->length-1; i++){
-           tmp = tmp->next;
-       }
-   }
-   tmp->next = NULL;
-   free(pre);
-   pre = NULL;
-   theBook->length --;
-}
-
-// delete a node from the tail of the list
-void tailDeleteStudents(Student* students, StudentList* theStudent){
-    Student* pre = students;
-    Student* L = students;
-    for (int i = 0; i < theStudent->length; i++){
-        pre = pre->next;
-    }
-    Student* tmp = L;
-    if (theStudent->length>1){
-        for (int i = 0; i < theStudent->length-1; i++){
-            tmp = tmp->next;
-        }
-    }
-    tmp->next = NULL;
-    free(pre);
-    pre = NULL;
-    theStudent->length --;
 }
 
 // load the books from the txt to the book list
@@ -154,30 +93,6 @@ void load_students(FILE* file, Student* students, StudentList* theStudent){
     tailDeleteStudents(students, theStudent);
 }
 
-// display the book list
-void showListBooks(Book* books, unsigned int length){
-    if (length == 0){
-        printf("\nThere is no books in the library!\n");
-    }else{
-        printf("\n| ID |    TITLE    |    AUTHOR    | YEAR | COPIES |\n");
-        Book* tmp = books->next;
-        while(tmp != NULL){
-            printf("|%3u |%10s   |%10s    |%5u |%7u |\n", tmp->id, tmp->title, tmp->authors, tmp->year, tmp->copies);
-            tmp = tmp->next;
-        }
-        printf("\nThere are totally %u kinds of books.\n", length);
-    }
-}
-
-//display the student list
-void showListStudents(Student* students, unsigned int length){
-    Student* tmp = students->next;
-    while (tmp != NULL){
-        printf("%u %s %s %s\n", tmp->id, tmp->name, tmp->username, tmp->password);
-        tmp = tmp->next;
-    }
-    printf("The number of students is %u\n", length);
-}
 
 // store books to txt
 int store_books(FILE* file, Book* books, BookList* theBook){
@@ -225,7 +140,8 @@ void libraryMenu(void){
         {
         case 1:
             printf("\n| * - * - * Librarian login * - * - * |\n");
-            librarianMenu();
+            printf("%s\n", librarianUsername);
+            // librarianMenu();
             break;
         case 2:
             printf("\n| * - * - * Students login * - * - * |\n");
@@ -237,7 +153,7 @@ void libraryMenu(void){
             printf("\n| * - * - * Search for a book * - * - * |\n");
             break;
         case 5:
-            printf("\n    | * - * - * Display all books * - * - * |\n");
+            printf("\n          | * - * - * Display all books * - * - * |\n");
             showListBooks(theBook->list, theBook->length);
             break;
         case 6:
@@ -248,13 +164,13 @@ void libraryMenu(void){
             break;
         }
 
-        FILE* fp_b = fopen("books.txt", "w");
-        if (!fp_b){
-            printf("wrong to store!\n");
-        }else{
-            store_books(fp_b, theBook->list, theBook);
-            fclose(fp_b);
-        }
+        // FILE* fp_b = fopen("books.txt", "w");
+        // if (!fp_b){
+        //     printf("wrong to store!\n");
+        // }else{
+        //     store_books(fp_b, theBook->list, theBook);
+        //     fclose(fp_b);
+        // }
 
         // exitLibrary(theBook);
         // free(theBook);

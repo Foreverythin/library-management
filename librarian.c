@@ -4,7 +4,7 @@
 #include "librarian.h"
 
 void librarianMenu(void){
-    printf("%s\n\n\n\n\n", librarianUsername);
+    printf("%s", librarianUsername);
     getchar();
     getchar();
 }
