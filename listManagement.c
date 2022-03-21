@@ -72,8 +72,9 @@ void tailDeleteStudents(Student* students, StudentList* theStudent){
 // display the book list
 void showListBooks(Book* books, unsigned int length){
     if (length == 0){
-        printf("\nThere is no books in the library!\n");
+        printf("\nThere is no book in the library!\n");
     }else{
+        printf("\n------------------- DISPLAY ALL BOOKS -------------------------");
         printf("\n| ID |       TITLE       |       AUTHOR       | YEAR | COPIES |\n");
         printf("---------------------------------------------------------------\n");
         Book* tmp = books->next;
@@ -87,10 +88,18 @@ void showListBooks(Book* books, unsigned int length){
 
 //display the student list
 void showListStudents(Student* students, unsigned int length){
-    Student* tmp = students->next;
-    while (tmp != NULL){
-        printf("%u %s %s %s\n", tmp->id, tmp->name, tmp->username, tmp->password);
-        tmp = tmp->next;
+    if (length == 0){
+        printf("\nThere is no reader registered in the library!\n");
     }
-    printf("The number of students is %u\n", length);
+    else{
+        printf("\n-------------- DISPLAY ALL READERS ------------------");
+        printf("\n| ID |     NAME     |    USERNAME    |   PASSWORD   |\n");
+        printf("-----------------------------------------------------\n");
+        Student* tmp = students->next;
+        while (tmp != NULL){
+            printf("|%3u |%9s     |%12s    |%11s   |\n", tmp->id, tmp->name, tmp->username, tmp->password);
+            tmp = tmp->next;
+        }
+        printf("\nThere are %u readers registered.\n", length);
+    }
 }

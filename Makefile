@@ -30,5 +30,5 @@ clean:
 
 main.o: main.c library.h
 library.o: library.c book_management.h listManagement.h library.h librarian.h
-librarian.o: librarian.c book_management.h librarian.h
+librarian.o: librarian.c book_management.h librarian.h listManagement.h
 listManagement.o: listManagement.c book_management.h listManagement.h

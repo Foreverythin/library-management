@@ -42,7 +42,7 @@ void initLibrary(BookList* theBook, StudentList* theStudent) {
 
     FILE* fp_s = fopen("students.txt", "r");
     if (!fp_s){
-        printf("error opening of students.txt\n");
+        printf("Error opening of students.txt\n");
     }else{
         load_students(fp_s, students, theStudent);
         showListStudents(theStudent->list, theStudent->length);
@@ -121,7 +121,7 @@ void libraryMenu(void){
         printf(" | *                                        * |\n");
         printf(" | | [1] LOG IN FOR LIBRARIANS              | |\n");
         printf(" | *                                        * |\n");
-        printf(" | | [2] LOG IN FOR STUDENTS                | |\n");
+        printf(" | | [2] LOG IN FOR READERS                 | |\n");
         printf(" | *                                        * |\n");
         printf(" | | [3] REGISTER AN ACCOUNT                | |\n");
         printf(" | *                                        * |\n");
@@ -134,7 +134,7 @@ void libraryMenu(void){
         printf(" | * - * - * - * - * - * - * - * - * - * -  * |\n");
         printf(" *============================================*\n");
 
-        printf("\nChoose one option(1-6):\n");
+        printf("\nChoose one option(1-6):\n->");
         scanf("%d", &option);
         switch (option)
         {
@@ -163,13 +163,13 @@ void libraryMenu(void){
             break;
         }
 
-        // FILE* fp_b = fopen("books.txt", "w");
-        // if (!fp_b){
-        //     printf("wrong to store!\n");
-        // }else{
-        //     store_books(fp_b, theBook->list, theBook);
-        //     fclose(fp_b);
-        // }
+        FILE* fp_b = fopen("books.txt", "w");
+        if (!fp_b){
+            printf("wrong to store!\n");
+        }else{
+            store_books(fp_b, theBook->list, theBook);
+            fclose(fp_b);
+        }
 
         // exitLibrary(theBook);
         // free(theBook);
