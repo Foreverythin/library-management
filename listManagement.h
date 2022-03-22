@@ -16,9 +16,13 @@ void showListBooks(Book* books, unsigned int length);
 void showListStudents(Student* Student, unsigned int length);
 
 //
-void tailDeleteBooks(Book* books, BookList* theBook);
+void tailDeleteBooks(Book* books, unsigned int length);
 
 //
-void tailDeleteStudents(Student* students, StudentList* theStudent);
+void tailDeleteStudents(Student* students, unsigned int length);
+
+void distroyBook(Book* books, unsigned int length);
+
+void distroyStudent(Student* students, unsigned int length);
 
 #endif

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "book_management.h"
 #include "listManagement.h"
@@ -40,13 +41,13 @@ void initLibrary(BookList* theBook, StudentList* theStudent) {
         fclose(fp_l);    
     }
 
-    FILE* fp_s = fopen("students.txt", "r");
-    if (!fp_s){
-        printf("Error opening of students.txt\n");
+    FILE* fp_r = fopen("readers.txt", "r");
+    if (!fp_r){
+        printf("Error opening of readers.txt\n");
     }else{
-        load_students(fp_s, students, theStudent);
+        load_students(fp_r, students, theStudent);
         showListStudents(theStudent->list, theStudent->length);
-        fclose(fp_s);
+        fclose(fp_r);
     }
 }
 
@@ -68,7 +69,8 @@ int load_books(FILE* file, Book* books, BookList* theBook){
         }
     }
     theBook->length ++;
-    tailDeleteBooks(books, theBook);
+    tailDeleteBooks(books, theBook->length);
+    theBook->length --;
 
     return 0;
 }
@@ -90,7 +92,8 @@ void load_students(FILE* file, Student* students, StudentList* theStudent){
         }
     }
     theStudent->length++;
-    tailDeleteStudents(students, theStudent);
+    tailDeleteStudents(students, theStudent->length);
+    theStudent->length--;
 }
 
 
@@ -105,16 +108,67 @@ int store_books(FILE* file, Book* books, BookList* theBook){
     return 0;
 }
 
+int store_readers(FILE* file, Student* students, StudentList* theStudent){
+    Student* tmp = students;
+    for (int i = 0; i < theStudent->length; i ++){
+        tmp = tmp->next;
+        fprintf(file, "%u %s %s %s\n", tmp->id, tmp->name, tmp->username, tmp->password);
+    }
+
+    return 0;
+}
+
+void registerAccounts(Student* students, StudentList* theStudent, unsigned int id, char* name, char* username, char* password){
+    tailInsertStudents(students);
+    theStudent->length ++;
+    Student* tmp = students;
+    for (int i = 0; i < theStudent->length; i++){
+        tmp = tmp->next;
+    }
+    tmp->id = id;
+    strcpy(tmp->name, name);
+    strcpy(tmp->username, username);
+    strcpy(tmp->password, password);
+}
+
+void registerAccountsMain(StudentList* theStudent){
+    unsigned int id;
+    char* name = (char*)malloc(sizeof(char));
+    char* username = (char*)malloc(sizeof(char));
+    char* password = (char*)malloc(sizeof(char));
+    char* passwordAgain = (char*)malloc(sizeof(char));
+    printf("\nPlease enter your student ID: \n->");
+    scanf("%u", &id);
+    printf("Please enter your name: \n->");
+    scanf("%s", name);
+    printf("Please enter your username: \n->");
+    scanf("%s", username);
+    printf("Please enter your password: \n->");
+    scanf("%s", password);
+    printf("Please repeat your password again: \n->");
+    scanf("%s", passwordAgain);
+    if (strcmp(password, passwordAgain) != 0)
+        printf("The two passwords you entered did not match!\n");
+    else{
+        registerAccounts(theStudent->list, theStudent, id, name, username, password);
+        printf("\nRegistered successfully!\n");
+    }
+        
+    free(name);
+    free(username);
+    free(password);
+    free(passwordAgain);
+}
+
 // the library main menu
 void libraryMenu(void){
     int libraryOpen = 1;
+    char* option = (char*)malloc(sizeof(char));
     BookList* theBook = (BookList*)malloc(sizeof(BookList));
     StudentList* theStudent = (StudentList*)malloc(sizeof(StudentList)); 
     initLibrary(theBook, theStudent);
     
     while (libraryOpen) {
-        int option ;
-
         printf("\n");
         printf(" *============================================*\n");
         printf(" | * - * - * THE LIBRARY MAIN MENU  * - * - * |\n");
@@ -135,45 +189,68 @@ void libraryMenu(void){
         printf(" *============================================*\n");
 
         printf("\nChoose one option(1-6):\n->");
-        scanf("%d", &option);
-        switch (option)
-        {
-        case 1:
+        scanf("%s", option);
+        getchar();
+        if (strcmp(option, "1") == 0){
             printf("\n    | * - * - * Librarian login * - * - * |\n");
             librarianMenu(theBook, theStudent);
-            break;
-        case 2:
-            printf("\n| * - * - * Students login * - * - * |\n");
-            break;
-        case 3:
+        } 
+        else if (strcmp(option, "2") == 0){
+            printf("\n| * - * - * Reader login * - * - * |\n");
+        }
+        else if (strcmp(option, "3") == 0){
             printf("\n| * - * - * Register an account * - * - * |\n");
-            break;
-        case 4:
+            registerAccountsMain(theStudent);
+        }     
+        else if (strcmp(option, "4") == 0){
             printf("\n| * - * - * Search for a book * - * - * |\n");
-            break;
-        case 5:
+            searchBooksMain(theBook->list, theBook);
+        }
+        else if (strcmp(option, "5") == 0){
             printf("\n          | * - * - * Display all books * - * - * |\n");
             showListBooks(theBook->list, theBook->length);
-            break;
-        case 6:
+        }
+        else if (strcmp(option, "6") == 0){
             printf("Bye~\n");
-            return;
-        default:
-            printf("Unknown option");
             break;
+        }   
+        else{
+            printf("Unknown option!\n");
         }
 
-        FILE* fp_b = fopen("books.txt", "w");
-        if (!fp_b){
-            printf("wrong to store!\n");
-        }else{
-            store_books(fp_b, theBook->list, theBook);
-            fclose(fp_b);
-        }
-
-        // exitLibrary(theBook);
-        // free(theBook);
     }
+
+    FILE* fp_b = fopen("books.txt", "w");
+    if (!fp_b){
+        printf("wrong to store books!\n");
+    }else{
+        store_books(fp_b, theBook->list, theBook);
+        fclose(fp_b);
+    }
+
+    FILE* fp_r = fopen("readers.txt", "w");
+    if (!fp_r){
+        printf("wrong to store readers!\n");
+    }else{
+        store_readers(fp_r, theStudent->list, theStudent);
+        fclose(fp_r);
+    }
+
+    free(option);
+
+    free(librarianUsername);
+    free(librarianPassword);
+
+    distroyBook(theBook->list, theBook->length);
+    distroyStudent(theStudent->list, theStudent->length);
+    free(theBook->list);
+    theBook->list = NULL;
+    free(theStudent->list);
+    theStudent->list = NULL;
+    free(theBook);
+    theBook = NULL;
+    free(theStudent);
+    theStudent = NULL;
     
     return;
 }

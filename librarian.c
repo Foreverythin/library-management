@@ -20,23 +20,189 @@ void addNewBook(Book* books, BookList* theBook, unsigned int id, char* title, ch
     tmp->copies = copies;
 }
 
-void searchBooksID(Book* books, BookList* theBook, unsigned int id){
-    if (theBook->length == 0)
+BookList find_book_by_id (Book* books, BookList* theBook, unsigned int id){
+    Book* tmp = books;
+    BookList searchBookList;
+    searchBookList.length = 0;
+    searchBookList.list = (Book*)malloc(sizeof(Book));
+    searchBookList.list->next = NULL;
+    for (int i = 0; i < theBook->length; i++){
+        tmp = tmp->next;
+        if (tmp->id == id){
+            tailInsertBooks(searchBookList.list);
+            searchBookList.length++;
+            Book* tmpp = searchBookList.list;
+            for (int i = 0; i < searchBookList.length; i ++){
+                tmpp = tmpp->next;
+            }
+            tmpp->id = tmp->id;
+            tmpp->title = tmp->title;
+            tmpp->authors = tmp->authors;
+            tmpp->year = tmp->year;
+            tmpp->copies = tmp->copies;
+            tmpp->next = NULL;
+        }
+    }
+
+    return searchBookList;
+}
+
+BookList find_book_by_title (Book* books, BookList* theBook, const char *title){
+    Book* tmp = books;
+    BookList searchBookList;
+    searchBookList.length = 0;
+    searchBookList.list = (Book*)malloc(sizeof(Book));
+    searchBookList.list->next = NULL;
+    for (int i = 0; i < theBook->length; i++){
+        tmp = tmp->next;
+        if (strcmp(tmp->title, title) == 0){
+            tailInsertBooks(searchBookList.list);
+            searchBookList.length++;
+            Book* tmpp = searchBookList.list;
+            for (int i = 0; i < searchBookList.length; i ++){
+                tmpp = tmpp->next;
+            }
+            tmpp->id = tmp->id;
+            tmpp->title = tmp->title;
+            tmpp->authors = tmp->authors;
+            tmpp->year = tmp->year;
+            tmpp->copies = tmp->copies;
+            tmpp->next = NULL;
+        }
+    }
+
+    return searchBookList;
+}
+
+BookList find_book_by_author (Book* books, BookList* theBook, const char *authors){
+    Book* tmp = books;
+    BookList searchBookList;
+    searchBookList.length = 0;
+    searchBookList.list = (Book*)malloc(sizeof(Book));
+    searchBookList.list->next = NULL;
+    for (int i = 0; i < theBook->length; i++){
+        tmp = tmp->next;
+        if (strcmp(tmp->authors, authors) == 0){
+            tailInsertBooks(searchBookList.list);
+            searchBookList.length++;
+            Book* tmpp = searchBookList.list;
+            for (int i = 0; i < searchBookList.length; i ++){
+                tmpp = tmpp->next;
+            }
+            tmpp->id = tmp->id;
+            tmpp->title = tmp->title;
+            tmpp->authors = tmp->authors;
+            tmpp->year = tmp->year;
+            tmpp->copies = tmp->copies;
+            tmpp->next = NULL;
+        }
+    }
+
+    return searchBookList;
+}
+
+BookList find_book_by_year (Book* books, BookList* theBook, unsigned int year){
+    Book* tmp = books;
+    BookList searchBookList;
+    searchBookList.length = 0;
+    searchBookList.list = (Book*)malloc(sizeof(Book));
+    searchBookList.list->next = NULL;
+    for (int i = 0; i < theBook->length; i++){
+        tmp = tmp->next;
+        if (tmp->year == year){
+            tailInsertBooks(searchBookList.list);
+            searchBookList.length++;
+            Book* tmpp = searchBookList.list;
+            for (int i = 0; i < searchBookList.length; i ++){
+                tmpp = tmpp->next;
+            }
+            tmpp->id = tmp->id;
+            tmpp->title = tmp->title;
+            tmpp->authors = tmp->authors;
+            tmpp->year = tmp->year;
+            tmpp->copies = tmp->copies;
+            tmpp->next = NULL;
+        }
+    }
+
+    return searchBookList;
+}
+
+BookList find_book_by_copies (Book* books, BookList* theBook, unsigned int copies){
+    Book* tmp = books;
+    BookList searchBookList;
+    searchBookList.length = 0;
+    searchBookList.list = (Book*)malloc(sizeof(Book));
+    searchBookList.list->next = NULL;
+    for (int i = 0; i < theBook->length; i++){
+        tmp = tmp->next;
+        if (tmp->copies == copies){
+            tailInsertBooks(searchBookList.list);
+            searchBookList.length++;
+            Book* tmpp = searchBookList.list;
+            for (int i = 0; i < searchBookList.length; i ++){
+                tmpp = tmpp->next;
+            }
+            tmpp->id = tmp->id;
+            tmpp->title = tmp->title;
+            tmpp->authors = tmp->authors;
+            tmpp->year = tmp->year;
+            tmpp->copies = tmp->copies;
+            tmpp->next = NULL;
+        }
+    }
+
+    return searchBookList;
+}
+
+void searchReadersName(Student* students, StudentList* theStudent, char* name){
+    if (theStudent->length == 0)
         printf("\nThere is no book in the library now!\n");
     else{
-        Book* tmp = books;
+        Student* tmp = students;
         int find = 0;
         int once = 1;
         printf("\n------------------- SEARCHING RESULT --------------------------");
-        for(int i = 0; i < theBook->length; i++){
+        for(int i = 0; i < theStudent->length; i++){
+            tmp = tmp->next;
+            if (strcmp(tmp->name, name) == 0){
+                find++;
+                if (once){
+                    once = 0;
+                    printf("\n| ID |     NAME     |    USERNAME    |   PASSWORD   |\n");
+                }
+                printf("|%3u |%9s     |%12s    |%11s   |\n", tmp->id, tmp->name, tmp->username, tmp->password);
+            }
+        }
+        if (find == 0)
+            printf("\nThe search result is none!\n");
+        else{
+            if (find > 1)
+                printf("\n%d results in total.\n", find);
+            else
+                printf("\n%d result in total.\n", find);
+        }
+            
+    }
+}
+
+void searchReadersID(Student* students, StudentList* theStudent, unsigned int id){
+    if (theStudent->length == 0)
+        printf("\nThere is no reader registered in the library now!\n");
+    else{
+        Student* tmp = students;
+        int find = 0;
+        int once = 1;
+        printf("\n------------------- SEARCHING RESULT --------------------------");
+        for(int i = 0; i < theStudent->length; i++){
             tmp = tmp->next;
             if (tmp->id == id){
                 find++;
                 if (once){
                     once = 0;
-                    printf("\n| ID |       TITLE       |       AUTHOR       | YEAR | COPIES |\n");
+                    printf("\n| ID |     NAME     |    USERNAME    |   PASSWORD   |\n");
                 }
-                printf("|%3u |%12s       |%13s       |%5u |%7u |\n", tmp->id, tmp->title, tmp->authors, tmp->year, tmp->copies);
+                printf("|%3u |%9s     |%12s    |%11s   |\n", tmp->id, tmp->name, tmp->username, tmp->password);
             }
         }
         if (find == 0)
@@ -51,132 +217,171 @@ void searchBooksID(Book* books, BookList* theBook, unsigned int id){
     }   
 }
 
-void searchBooksTitle(Book* books, BookList* theBook, char* title){
+void searchBooksMain(Book* books, BookList* theBook){
     if (theBook->length == 0)
-        printf("\nThere is no book in the library now!\n");
+        printf("\nThere is no book in the library!\n");
     else{
-        Book* tmp = books;
-        int find = 0;
-        int once = 1;
-        printf("\n------------------- SEARCHING RESULT --------------------------");
-        for(int i = 0; i < theBook->length; i++){
-            tmp = tmp->next;
-            if (strcmp(tmp->title, title) == 0){
-                find++;
-                if (once){
-                    once = 0;
-                    printf("\n| ID |       TITLE       |       AUTHOR       | YEAR | COPIES |\n");
+        char searchChoice4[6];
+        printf("\nWhich one do you want to search by, id, title, author, year or copies?\n->");
+        scanf("%s", searchChoice4);
+        if (strcmp(searchChoice4, "id") == 0){
+            unsigned int id;
+            printf("Which id?\n->");
+            scanf("%u", &id);
+            BookList tmp;
+            tmp = find_book_by_id(theBook->list, theBook, id);
+            if (tmp.length != 0){
+                printf("\n------------------- SEARCHING RESULT --------------------------");
+                printf("\n| ID |       TITLE       |       AUTHOR       | YEAR | COPIES |\n");
+                Book* indexTmp = tmp.list->next;
+                while(indexTmp != NULL){
+                    printf("|%3u |%12s       |%13s       |%5u |%7u |\n", indexTmp->id, indexTmp->title, indexTmp->authors, indexTmp->year, indexTmp->copies);
+                    indexTmp = indexTmp->next;
                 }
-                printf("|%3u |%12s       |%13s       |%5u |%7u |\n", tmp->id, tmp->title, tmp->authors, tmp->year, tmp->copies);
+                if (tmp.length == 1)
+                    printf("\n%d result in total.\n", tmp.length);
+                else
+                    printf("\n%d results in total.\n", tmp.length);
+            }else{
+                printf("\n------------------- SEARCHING RESULT --------------------------");
+                printf("\nThe search result is none!\n");
+            } 
+            distroyBook(tmp.list, tmp.length);
+            free(tmp.list);
+        }else if (strcmp(searchChoice4, "title") == 0){
+            char* title = (char*)malloc(sizeof(char));
+            printf("Which title?\n->");
+            scanf("%s", title);
+            BookList tmp;
+            tmp = find_book_by_title(theBook->list, theBook, title);
+            if (tmp.length != 0){
+                printf("\n------------------- SEARCHING RESULT --------------------------");
+                printf("\n| ID |       TITLE       |       AUTHOR       | YEAR | COPIES |\n");
+                Book* indexTmp = tmp.list->next;
+                while(indexTmp != NULL){
+                    printf("|%3u |%12s       |%13s       |%5u |%7u |\n", indexTmp->id, indexTmp->title, indexTmp->authors, indexTmp->year, indexTmp->copies);
+                    indexTmp = indexTmp->next;
+                }
+                if (tmp.length == 1)
+                    printf("\n%d result in total.\n", tmp.length);
+                else
+                    printf("\n%d results in total.\n", tmp.length);
+            }else{
+                printf("\n------------------- SEARCHING RESULT --------------------------");
+                printf("\nThe search result is none!\n");
             }
+            free(title);
+            distroyBook(tmp.list, tmp.length);
+            free(tmp.list);
+        }else if (strcmp(searchChoice4, "author") == 0){
+            char* authors = (char*)malloc(sizeof(char));
+            printf("Which author?\n->");
+            scanf("%s", authors);
+            BookList tmp;
+            tmp = find_book_by_author(theBook->list, theBook, authors);
+            if (tmp.length != 0){
+                printf("\n------------------- SEARCHING RESULT --------------------------");
+                printf("\n| ID |       TITLE       |       AUTHOR       | YEAR | COPIES |\n");
+                Book* indexTmp = tmp.list->next;
+                while(indexTmp != NULL){
+                    printf("|%3u |%12s       |%13s       |%5u |%7u |\n", indexTmp->id, indexTmp->title, indexTmp->authors, indexTmp->year, indexTmp->copies);
+                    indexTmp = indexTmp->next;
+                }
+                if (tmp.length == 1)
+                    printf("\n%d result in total.\n", tmp.length);
+                else
+                    printf("\n%d results in total.\n", tmp.length);
+            }else{
+                printf("\n------------------- SEARCHING RESULT --------------------------");
+                printf("\nThe search result is none!\n");
+            }
+            free(authors);
+            distroyBook(tmp.list, tmp.length);
+            free(tmp.list);
+        }else if (strcmp(searchChoice4, "year") == 0){
+            unsigned int year;
+            printf("Which year?\n->");
+            scanf("%u", &year);
+            BookList tmp;
+            tmp = find_book_by_year(theBook->list, theBook, year);
+            if (tmp.length != 0){
+                printf("\n------------------- SEARCHING RESULT --------------------------");
+                printf("\n| ID |       TITLE       |       AUTHOR       | YEAR | COPIES |\n");
+                Book* indexTmp = tmp.list->next;
+                while(indexTmp != NULL){
+                    printf("|%3u |%12s       |%13s       |%5u |%7u |\n", indexTmp->id, indexTmp->title, indexTmp->authors, indexTmp->year, indexTmp->copies);
+                    indexTmp = indexTmp->next;
+                }
+                if (tmp.length == 1)
+                    printf("\n%d result in total.\n", tmp.length);
+                else
+                    printf("\n%d results in total.\n", tmp.length);
+            }else{
+                printf("\n------------------- SEARCHING RESULT --------------------------");
+                printf("\nThe search result is none!\n");
+            }
+            distroyBook(tmp.list, tmp.length);
+            free(tmp.list);
+        }else if (strcmp(searchChoice4, "copies") == 0){
+            unsigned int copies;
+            printf("How many copies?\n->");
+            scanf("%u", &copies);
+            BookList tmp;
+            tmp = find_book_by_copies(theBook->list, theBook, copies);
+            if (tmp.length != 0){
+                printf("\n------------------- SEARCHING RESULT --------------------------");
+                printf("\n| ID |       TITLE       |       AUTHOR       | YEAR | COPIES |\n");
+                Book* indexTmp = tmp.list->next;
+                while(indexTmp != NULL){
+                    printf("|%3u |%12s       |%13s       |%5u |%7u |\n", indexTmp->id, indexTmp->title, indexTmp->authors, indexTmp->year, indexTmp->copies);
+                    indexTmp = indexTmp->next;
+                }
+                if (tmp.length == 1)
+                    printf("\n%d result in total.\n", tmp.length);
+                else
+                    printf("\n%d results in total.\n", tmp.length);
+            }else{
+                printf("\n------------------- SEARCHING RESULT --------------------------");
+                printf("\nThe search result is none!\n");
+            }
+            distroyBook(tmp.list, tmp.length);
+            free(tmp.list);
+        }else{
+            printf("Unknown choice!\n");
         }
-        if (find == 0)
-            printf("\nThe search result is none!\n");
-        else{
-            if (find > 1)
-                printf("\n%d results in total.\n", find);
-            else
-                printf("\n%d result in total.\n", find);
-        }
-            
     }
+    
 }
 
-void searchBooksAuthors(Book* books, BookList* theBook, char* authors){
-    if (theBook->length == 0)
-        printf("\nThere is no book in the library now!\n");
-    else{
-        Book* tmp = books;
-        int find = 0;
-        int once = 1;
-        printf("\n------------------- SEARCHING RESULT --------------------------");
-        for(int i = 0; i < theBook->length; i++){
-            tmp = tmp->next;
-            if (strcmp(tmp->authors, authors) == 0){
-                find++;
-                if (once){
-                    once = 0;
-                    printf("\n| ID |       TITLE       |       AUTHOR       | YEAR | COPIES |\n");
-                }
-                printf("|%3u |%12s       |%13s       |%5u |%7u |\n", tmp->id, tmp->title, tmp->authors, tmp->year, tmp->copies);
-            }
-        }
-        if (find == 0)
-            printf("\nThe search result is none!\n");
-        else{
-            if (find > 1)
-                printf("\n%d results in total.\n", find);
-            else
-                printf("\n%d result in total.\n", find);
-        }
-            
+void searchReadersMain(StudentList* theStudent){
+    if (theStudent->length == 0){
+        printf("\nThere is no reader registered in the library!\n");
     }
-}
-
-void searchBooksYear(Book* books, BookList* theBook, unsigned int year){
-    if (theBook->length == 0)
-        printf("\nThere is no book in the library now!\n");
     else{
-        Book* tmp = books;
-        int find = 0;
-        int once = 1;
-        printf("\n------------------- SEARCHING RESULT --------------------------");
-        for(int i = 0; i < theBook->length; i++){
-            tmp = tmp->next;
-            if (tmp->year == year){
-                find++;
-                if (once){
-                    once = 0;
-                    printf("\n| ID |       TITLE       |       AUTHOR       | YEAR | COPIES |\n");
-                }
-                printf("|%3u |%12s       |%13s       |%5u |%7u |\n", tmp->id, tmp->title, tmp->authors, tmp->year, tmp->copies);
-            }
+        char searchChoice7[4];
+        printf("\nWhich one do you want to search by, id or name?\n->");
+        scanf("%s", searchChoice7);
+        if (strcmp(searchChoice7, "id") == 0){
+            unsigned int id;
+            printf("Which id?\n->");
+            scanf("%u", &id);
+            searchReadersID(theStudent->list, theStudent, id);
+        }else if(strcmp(searchChoice7, "name") == 0){
+            char* name = (char*)malloc(sizeof(char));
+            printf("Which name?\n->");
+            scanf("%s", name);
+            searchReadersName(theStudent->list, theStudent, name);
+            free(name);
+        }else{
+            printf("Unknown choice!\n");
         }
-        if (find == 0)
-            printf("\nThe search result is none!\n");
-        else{
-            if (find > 1)
-                printf("\n%d results in total.\n", find);
-            else
-                printf("\n%d result in total.\n", find);
-        }
-            
-    }   
-}
-
-void searchBooksCopies(Book* books, BookList* theBook, unsigned int copies){
-    if (theBook->length == 0)
-        printf("\nThere is no book in the library now!\n");
-    else{
-        Book* tmp = books;
-        int find = 0;
-        int once = 1;
-        printf("\n------------------- SEARCHING RESULT --------------------------");
-        for(int i = 0; i < theBook->length; i++){
-            tmp = tmp->next;
-            if (tmp->copies == copies){
-                find++;
-                if (once){
-                    once = 0;
-                    printf("\n| ID |       TITLE       |       AUTHOR       | YEAR | COPIES |\n");
-                }
-                printf("|%3u |%12s       |%13s       |%5u |%7u |\n", tmp->id, tmp->title, tmp->authors, tmp->year, tmp->copies);
-            }
-        }
-        if (find == 0)
-            printf("\nThe search result is none!\n");
-        else{
-            if (find > 1)
-                printf("\n%d results in total.\n", find);
-            else
-                printf("\n%d result in total.\n", find);
-        }
-            
-    }   
+    }
+    
 }
 
 void librarianMenu(BookList* theBook, StudentList* theStudent){
     int librarianLogin = 1;
+    char* option = (char*)malloc(sizeof(char));
     int chances = 3;
     char* inputUsername = (char*)malloc(sizeof(char));
     char* inputPassword = (char*)malloc(sizeof(char));
@@ -190,7 +395,7 @@ void librarianMenu(BookList* theBook, StudentList* theStudent){
             printf("Login failed! You have %d left chances!\n", chances);
             if (chances == 0)
                 return;
-            printf("\nPlease enter your account: \n->");
+            printf("\nPlease enter your username: \n->");
             scanf("%s", inputUsername);
             printf("Please enter your password: \n->");
             scanf("%s", inputPassword);
@@ -199,9 +404,10 @@ void librarianMenu(BookList* theBook, StudentList* theStudent){
             break;
         }
     }
+    free(inputUsername);
+    free(inputPassword);
 
     while (librarianLogin) {
-        int option;
 
         printf("\n");
         printf("\n |------------- LIBRARIAN MENU ---------------|\n");
@@ -228,65 +434,21 @@ void librarianMenu(BookList* theBook, StudentList* theStudent){
         printf(" ----------------------------------------------\n");
 
         printf("\nChoose one option(1-10): \n->");
-        scanf("%d", &option);
+        scanf("%s", option);
 
-        switch (option)
-        {
-        case 1:
-            break;
-        case 2:
-            break;
-        case 3:
-            break;
-        case 4:
-            char searchChoice[6];
-            printf("\nWhich one do you want to search by, id, title, author, year or copies?\n->");
-            scanf("%s", searchChoice);
-            if (strcmp(searchChoice, "id") == 0){
-                unsigned int id;
-                printf("Which id?\n->");
-                scanf("%u", &id);
-                searchBooksID(theBook->list, theBook, id);
-            }else if (strcmp(searchChoice, "title") == 0){
-                char* title = (char*)malloc(sizeof(char));
-                printf("Which title?\n->");
-                scanf("%s", title);
-                searchBooksTitle(theBook->list, theBook, title);
-            }else if (strcmp(searchChoice, "author") == 0){
-                char* authors = (char*)malloc(sizeof(char));
-                printf("Which author?\n->");
-                scanf("%s", authors);
-                searchBooksAuthors(theBook->list, theBook, authors);
-            }else if (strcmp(searchChoice, "year") == 0){
-                unsigned int year;
-                printf("Which year?\n->");
-                scanf("%u", &year);
-                searchBooksYear(theBook->list, theBook, year);
-            }else if (strcmp(searchChoice, "copies") == 0){
-                unsigned int copies;
-                printf("How many copies?\n->");
-                scanf("%u", &copies);
-                searchBooksCopies(theBook->list, theBook, copies);
-            }
-            
-            break;
-        case 5:
+        if (strcmp(option, "4") == 0)
+            searchBooksMain(theBook->list, theBook);
+        else if (strcmp(option, "5") == 0)
             showListBooks(theBook->list, theBook->length);
-            break;
-        case 6:
+        else if (strcmp(option, "6") == 0)
             showListStudents(theStudent->list, theStudent->length);
-            break;
-        case 7:
-            break;
-        case 8:
-            break; 
-        case 9:
-            break;
-        case 10:
+        else if (strcmp(option, "7") == 0)
+            searchReadersMain(theStudent);
+        else if (strcmp(option, "10") == 0)
             return;
-        default:
+        else
             printf("Unknown option!\n");
-            break;
-        }
     }
+
+    free(option);
 }
