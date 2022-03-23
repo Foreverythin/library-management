@@ -6,6 +6,7 @@
 #include "listManagement.h"
 #include "library.h"
 #include "librarian.h"
+#include "reader.h"
 
 char* librarianUsername;
 char* librarianPassword;
@@ -192,11 +193,12 @@ void libraryMenu(void){
         scanf("%s", option);
         getchar();
         if (strcmp(option, "1") == 0){
-            printf("\n    | * - * - * Librarian login * - * - * |\n");
+            printf("\n     | * - * - * Librarian login * - * - * |\n");
             librarianMenu(theBook, theStudent);
         } 
         else if (strcmp(option, "2") == 0){
-            printf("\n| * - * - * Reader login * - * - * |\n");
+            printf("\n     | * - * - * Reader login * - * - * |\n");
+            readerMenu(theBook, theStudent);
         }
         else if (strcmp(option, "3") == 0){
             printf("\n| * - * - * Register an account * - * - * |\n");

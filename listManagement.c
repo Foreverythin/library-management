@@ -45,6 +45,8 @@ void tailDeleteBooks(Book* books, unsigned int length){
        }
    }
    tmp->next = NULL;
+   free(pre->authors);
+   free(pre->title);
    free(pre);
    pre = NULL;
 }
@@ -63,6 +65,9 @@ void tailDeleteStudents(Student* students, unsigned int length){
         }
     }
     tmp->next = NULL;
+    free(pre->name);
+    free(pre->password);
+    free(pre->username);
     free(pre);
     pre = NULL;
 }

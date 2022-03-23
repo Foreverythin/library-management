@@ -382,10 +382,11 @@ void searchReadersMain(StudentList* theStudent){
 void librarianMenu(BookList* theBook, StudentList* theStudent){
     int librarianLogin = 1;
     char* option = (char*)malloc(sizeof(char));
+
     int chances = 3;
     char* inputUsername = (char*)malloc(sizeof(char));
     char* inputPassword = (char*)malloc(sizeof(char));
-    printf("\nPlease enter your account: \n->");
+    printf("\nPlease enter your username: \n->");
     scanf("%s", inputUsername);
     printf("Please enter your password: \n->");
     scanf("%s", inputPassword);
@@ -445,7 +446,7 @@ void librarianMenu(BookList* theBook, StudentList* theStudent){
         else if (strcmp(option, "7") == 0)
             searchReadersMain(theStudent);
         else if (strcmp(option, "10") == 0)
-            return;
+            librarianLogin = 0;
         else
             printf("Unknown option!\n");
     }
