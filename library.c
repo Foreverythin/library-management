@@ -140,10 +140,35 @@ void registerAccountsMain(StudentList* theStudent){
     char* passwordAgain = (char*)malloc(sizeof(char));
     printf("\nPlease enter your student ID: \n->");
     scanf("%u", &id);
+    Student* tmp = theStudent->list;
+    for (int i = 0; i < theStudent->length; i++){
+        tmp = tmp->next;
+        if (id == tmp->id){
+            printf("The ID may not be correct, because it is the same to others'!\n");
+            return;
+        }
+    }
     printf("Please enter your name: \n->");
     scanf("%s", name);
     printf("Please enter your username: \n->");
     scanf("%s", username);
+    int jump;
+    while(1){
+        jump = 1;
+        tmp = theStudent->list;
+        for (int i = 0; i < theStudent->length; i++){
+            tmp = tmp->next;
+            if (strcmp(tmp->username, username) == 0){
+                jump = 0;
+                printf("The username has been registered!\n");
+                printf("Please enter a username which has not been registered: \n->");
+                scanf("%s", username);
+                break;
+            }
+        }
+        if (jump)
+            break;
+    }
     printf("Please enter your password: \n->");
     scanf("%s", password);
     printf("Please repeat your password again: \n->");

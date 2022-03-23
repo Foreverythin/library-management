@@ -9,6 +9,7 @@
 void readerMenu(BookList* theBook, StudentList* theStudent){
     int readerLogin = 0;
     char* option = (char*)malloc(sizeof(char));
+    int currentID;
 
     int chances = 3;
     char* inputUsername = (char*)malloc(sizeof(char));
@@ -16,38 +17,31 @@ void readerMenu(BookList* theBook, StudentList* theStudent){
     printf("\nPlease enter your username: \n->");
     scanf("%s", inputUsername);
     Student* tmp = theStudent->list;
-    Student* usernameEqual = (Student*)malloc(sizeof(Student));
-    usernameEqual->next = NULL;
-    int usernameEqualLength = 0;
-    Student* tmpp;
+    Student userEqual;
+    // Student* usernameEqual = (Student*)malloc(sizeof(Student));
+    userEqual.next = NULL;
+    userEqual.name = (char*)malloc(sizeof(char));
+    userEqual.username = (char*)malloc(sizeof(char));
+    userEqual.password = (char*)malloc(sizeof(char));
+    userEqual.id = 0;
     for (int i = 0; i < theStudent->length; i++){
         tmp = tmp->next;
-        tmpp = usernameEqual;
         if (strcmp(tmp->username, inputUsername) == 0){
-            tailInsertStudents(usernameEqual);
-            usernameEqualLength ++;
-            for (int i = 0; i < usernameEqualLength; i++){
-                tmpp = tmpp->next;
-            }
-            strcpy(tmpp->username, inputUsername);
-            strcpy(tmpp->password, tmp->password);
-            strcpy(tmpp->name, tmp->name);
+            userEqual.id = tmp->id;
+            strcpy(userEqual.username, inputUsername);
+            strcpy(userEqual.password, tmp->password);
+            strcpy(userEqual.name, tmp->name);
+            break;
         }
     }
-    if (usernameEqualLength){
+    if (userEqual.id){
         while (chances){
             printf("Please enter your password: \n->");
             scanf("%s", inputPassword);
-            tmpp = usernameEqual;
-            for (int i = 0; i < usernameEqualLength; i++){
-                tmpp = tmpp->next;
-                if (strcmp(tmpp->password, inputPassword) == 0){
-                    printf("\nLogin successfully, %s!\n", tmpp->name);
-                    readerLogin = 1;
-                    break;
-                }
-            }
-            if (readerLogin){
+            if (strcmp(userEqual.password, inputPassword) == 0){
+                printf("\nLogin successfully, %s!\n", userEqual.name);
+                currentID = userEqual.id;
+                readerLogin = 1;
                 break;
             }else{
                 chances--;
@@ -57,7 +51,11 @@ void readerMenu(BookList* theBook, StudentList* theStudent){
     }else{
         printf("This username has not been registered!\n");
     }
-
+    free(inputUsername);
+    free(inputPassword);
+    free(userEqual.name);
+    free(userEqual.username);
+    free(userEqual.password);
 
     while (readerLogin) {
 
@@ -92,8 +90,5 @@ void readerMenu(BookList* theBook, StudentList* theStudent){
             printf("Unknown option!\n");
     }
 
-
-    distroyStudent(usernameEqual, usernameEqualLength);
-    free(usernameEqual);
     free(option);
 }
