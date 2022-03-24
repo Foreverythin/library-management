@@ -375,8 +375,11 @@ void searchReadersMain(StudentList* theStudent){
         }else{
             printf("Unknown choice!\n");
         }
-    }
-    
+    }   
+}
+
+void addBooksMain(Book* books, BookList* theBook){
+
 }
 
 void librarianMenu(BookList* theBook, StudentList* theStudent){
@@ -437,7 +440,9 @@ void librarianMenu(BookList* theBook, StudentList* theStudent){
         printf("\nChoose one option(1-10): \n->");
         scanf("%s", option);
 
-        if (strcmp(option, "4") == 0)
+        if (strcmp(option, '1') == 0){
+            addBooksMain(theBook->list, theBook);
+        }else if (strcmp(option, "4") == 0)
             searchBooksMain(theBook->list, theBook);
         else if (strcmp(option, "5") == 0)
             showListBooks(theBook->list, theBook->length);

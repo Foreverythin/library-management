@@ -13,4 +13,6 @@ void addNewBook(Book* books, BookList* theBook, unsigned int id, char* title, ch
 
 void searchBooksMain(Book* books, BookList* theBook);
 void searchReadersMain(StudentList* theStudent);
+
+void addBooksMain(Book* books, BookList* theBook);
 #endif
