@@ -181,9 +181,13 @@ void registerAccountsMain(StudentList* theStudent){
     }
         
     free(name);
+    name = NULL;
     free(username);
+    username = NULL;
     free(password);
+    password = NULL;
     free(passwordAgain);
+    password = NULL;
 }
 
 // the library main menu
@@ -264,9 +268,12 @@ void libraryMenu(void){
     }
 
     free(option);
+    option = NULL;
 
     free(librarianUsername);
+    librarianUsername = NULL;
     free(librarianPassword);
+    librarianPassword = NULL;
 
     distroyBook(theBook->list, theBook->length);
     distroyStudent(theStudent->list, theStudent->length);

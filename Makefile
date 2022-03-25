@@ -1,7 +1,7 @@
 # code details
 
 EXE = ./bin/library
-SRC = main.c library.c librarian.c listManagement.c reader.c
+SRC = main.c library.c librarian.c listManagement.c reader.c utility.c
 
 # generic build details
 
@@ -30,6 +30,7 @@ clean:
 
 main.o: main.c library.h
 library.o: library.c book_management.h listManagement.h library.h librarian.h reader.h
-librarian.o: librarian.c book_management.h librarian.h listManagement.h
+librarian.o: librarian.c book_management.h librarian.h listManagement.h utility.h
 listManagement.o: listManagement.c book_management.h listManagement.h
 reader.o: reader.c book_management.h listManagement.h librarian.h
+utility.o: utility.c utility.h

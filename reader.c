@@ -6,6 +6,60 @@
 #include "listManagement.h"
 #include "librarian.h"
 
+void changePersonalInformation(Student* students, StudentList* theStudent, unsigned int id){
+    Student* tmp = students;
+    char* username = (char*)malloc(sizeof(char));
+    char* password = (char*)malloc(sizeof(char));
+    int numChanges = 0;
+    for (int i = 0; i < theStudent->length; i++){
+        tmp = tmp->next;
+        if (tmp->id == id){
+            printf("\n-----------------------------------------------------");
+            printf("\n| ID |     NAME     |    USERNAME    |   PASSWORD   |\n");
+            printf("|%3u |%9s     |%12s    |%11s   |\n", tmp->id, tmp->name, tmp->username, tmp->password);
+            printf("-----------------------------------------------------\n");
+            char* yes_no = (char*)malloc(sizeof(char));
+            while (1){
+                printf("Do you want to change your username?(yes/no)\n->");
+                scanf("%s", yes_no);
+                if (strcmp(yes_no, "yes") == 0){
+                    printf("What username do you want to change to?\n->");
+                    scanf("%s", username);
+                    strcpy(tmp->username, username);
+                    numChanges ++;
+                    break;
+                }else if (strcmp(yes_no, "no") == 0){
+                    break;
+                }else
+                    printf("Unknown option!\n");
+            }
+            while (1){
+                printf("Do you want to change your password?(yes/no)\n->");
+                scanf("%s", yes_no);
+                if (strcmp(yes_no, "yes") == 0){
+                    printf("What password do you want to change to?\n->");
+                    scanf("%s", password);
+                    strcpy(tmp->password, password);
+                    numChanges ++;
+                    break;
+                }else if (strcmp(yes_no, "no") == 0){
+                    break;
+                }else
+                    printf("Unknown option!\n");
+            }
+            free(yes_no);
+            yes_no = NULL;
+            break;
+        }
+    }
+    if (numChanges)
+        printf("Successfully change your personal information!\n");
+    free(username);
+    username = NULL;
+    free(password);
+    password = NULL;
+}
+
 void readerMenu(BookList* theBook, StudentList* theStudent){
     int readerLogin = 0;
     char* option = (char*)malloc(sizeof(char));
@@ -18,7 +72,6 @@ void readerMenu(BookList* theBook, StudentList* theStudent){
     scanf("%s", inputUsername);
     Student* tmp = theStudent->list;
     Student userEqual;
-    // Student* usernameEqual = (Student*)malloc(sizeof(Student));
     userEqual.next = NULL;
     userEqual.name = (char*)malloc(sizeof(char));
     userEqual.username = (char*)malloc(sizeof(char));
@@ -52,10 +105,15 @@ void readerMenu(BookList* theBook, StudentList* theStudent){
         printf("This username has not been registered!\n");
     }
     free(inputUsername);
+    inputUsername = NULL;
     free(inputPassword);
+    inputPassword = NULL;
     free(userEqual.name);
+    userEqual.name = NULL;
     free(userEqual.username);
+    userEqual.username = NULL;
     free(userEqual.password);
+    userEqual.password = NULL;
 
     while (readerLogin) {
 
@@ -84,6 +142,8 @@ void readerMenu(BookList* theBook, StudentList* theStudent){
             showListBooks(theBook->list, theBook->length);
         else if (strcmp(option, "2") == 0)
             searchBooksMain(theBook->list, theBook);
+        else if (strcmp(option, "6") == 0)
+            changePersonalInformation(theStudent->list, theStudent, currentID);
         else if (strcmp(option, "7") == 0)
             readerLogin = 0;
         else
@@ -91,4 +151,5 @@ void readerMenu(BookList* theBook, StudentList* theStudent){
     }
 
     free(option);
+    option = NULL;
 }

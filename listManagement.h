@@ -21,6 +21,10 @@ void tailDeleteBooks(Book* books, unsigned int length);
 //
 void tailDeleteStudents(Student* students, unsigned int length);
 
+void middleDeleteBooks(Book* books, BookList* theBook, int index);
+
+void middleDeleteStudents(Student* students, StudentList* theStudent, int index);
+
 void distroyBook(Book* books, unsigned int length);
 
 void distroyStudent(Student* students, unsigned int length);

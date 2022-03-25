@@ -46,7 +46,9 @@ void tailDeleteBooks(Book* books, unsigned int length){
    }
    tmp->next = NULL;
    free(pre->authors);
+   pre->authors = NULL;
    free(pre->title);
+   pre->title = NULL;
    free(pre);
    pre = NULL;
 }
@@ -66,8 +68,35 @@ void tailDeleteStudents(Student* students, unsigned int length){
     }
     tmp->next = NULL;
     free(pre->name);
+    pre->name = NULL;
     free(pre->password);
+    pre->password = NULL;
     free(pre->username);
+    pre->username = NULL;
+    free(pre);
+    pre = NULL;
+}
+
+//delete a node in the middle of the book list
+void middleDeleteBooks(Book* books, BookList* theBook, int index){
+    Book* tmp = books;
+    for (int i = 0; i < index-1; i++){
+        tmp = tmp->next;
+    }
+    Book* pre = tmp->next;
+    tmp->next = pre->next;
+    free(pre);
+    pre = NULL;
+}
+
+//delete a node in the middle of the student list
+void middleDeleteStudents(Student* students, StudentList* theStudent, int index){
+    Student* tmp = students;
+    for (int i = 0; i < index-1; i++){
+        tmp = tmp->next;
+    }
+    Student* pre = tmp->next;
+    tmp->next = pre->next;
     free(pre);
     pre = NULL;
 }

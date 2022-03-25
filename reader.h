@@ -3,4 +3,6 @@
 
 void readerMenu(BookList* theBook, StudentList* theStudent);
 
+void changePersonalInformation(Student* students, StudentList* theStudent, unsigned int id);
+
 #endif
