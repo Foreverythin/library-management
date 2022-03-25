@@ -594,7 +594,7 @@ void deleteUser(Student* students, StudentList* theStudent){
                         middleDeleteStudents(students, theStudent, i);
                         theStudent->length --;
                     }
-                    printf("Successfully delete the user!\n");
+                    printf("Successfully delete the reader!\n");
                 }else
                     printf("Delete failed!\n");
                 free(sure);
