@@ -171,6 +171,7 @@ void searchReadersName(Student* students, StudentList* theStudent, char* name){
                 if (once){
                     once = 0;
                     printf("\n| ID |     NAME     |    USERNAME    |   PASSWORD   |\n");
+                    printf("-----------------------------------------------------\n");
                 }
                 printf("|%3u |%9s     |%12s    |%11s   |\n", tmp->id, tmp->name, tmp->username, tmp->password);
             }
@@ -194,7 +195,7 @@ void searchReadersID(Student* students, StudentList* theStudent, unsigned int id
         Student* tmp = students;
         int find = 0;
         int once = 1;
-        printf("\n------------------- SEARCHING RESULT --------------------------");
+        printf("\n----------------- SEARCHING RESULT ------------------");
         for(int i = 0; i < theStudent->length; i++){
             tmp = tmp->next;
             if (tmp->id == id){
@@ -202,6 +203,7 @@ void searchReadersID(Student* students, StudentList* theStudent, unsigned int id
                 if (once){
                     once = 0;
                     printf("\n| ID |     NAME     |    USERNAME    |   PASSWORD   |\n");
+                    printf("-----------------------------------------------------\n");
                 }
                 printf("|%3u |%9s     |%12s    |%11s   |\n", tmp->id, tmp->name, tmp->username, tmp->password);
             }
@@ -234,6 +236,7 @@ void searchBooksMain(Book* books, BookList* theBook){
             if (tmp.length != 0){
                 printf("\n------------------- SEARCHING RESULT --------------------------");
                 printf("\n| ID |       TITLE       |       AUTHOR       | YEAR | COPIES |\n");
+                printf("---------------------------------------------------------------\n");
                 Book* indexTmp = tmp.list->next;
                 while(indexTmp != NULL){
                     printf("|%3u |%12s       |%13s       |%5u |%7u |\n", indexTmp->id, indexTmp->title, indexTmp->authors, indexTmp->year, indexTmp->copies);
@@ -259,6 +262,7 @@ void searchBooksMain(Book* books, BookList* theBook){
             if (tmp.length != 0){
                 printf("\n------------------- SEARCHING RESULT --------------------------");
                 printf("\n| ID |       TITLE       |       AUTHOR       | YEAR | COPIES |\n");
+                printf("---------------------------------------------------------------\n");
                 Book* indexTmp = tmp.list->next;
                 while(indexTmp != NULL){
                     printf("|%3u |%12s       |%13s       |%5u |%7u |\n", indexTmp->id, indexTmp->title, indexTmp->authors, indexTmp->year, indexTmp->copies);
@@ -286,6 +290,7 @@ void searchBooksMain(Book* books, BookList* theBook){
             if (tmp.length != 0){
                 printf("\n------------------- SEARCHING RESULT --------------------------");
                 printf("\n| ID |       TITLE       |       AUTHOR       | YEAR | COPIES |\n");
+                printf("---------------------------------------------------------------\n");
                 Book* indexTmp = tmp.list->next;
                 while(indexTmp != NULL){
                     printf("|%3u |%12s       |%13s       |%5u |%7u |\n", indexTmp->id, indexTmp->title, indexTmp->authors, indexTmp->year, indexTmp->copies);
@@ -313,6 +318,7 @@ void searchBooksMain(Book* books, BookList* theBook){
             if (tmp.length != 0){
                 printf("\n------------------- SEARCHING RESULT --------------------------");
                 printf("\n| ID |       TITLE       |       AUTHOR       | YEAR | COPIES |\n");
+                printf("---------------------------------------------------------------\n");
                 Book* indexTmp = tmp.list->next;
                 while(indexTmp != NULL){
                     printf("|%3u |%12s       |%13s       |%5u |%7u |\n", indexTmp->id, indexTmp->title, indexTmp->authors, indexTmp->year, indexTmp->copies);
@@ -338,6 +344,7 @@ void searchBooksMain(Book* books, BookList* theBook){
             if (tmp.length != 0){
                 printf("\n------------------- SEARCHING RESULT --------------------------");
                 printf("\n| ID |       TITLE       |       AUTHOR       | YEAR | COPIES |\n");
+                printf("---------------------------------------------------------------\n");
                 Book* indexTmp = tmp.list->next;
                 while(indexTmp != NULL){
                     printf("|%3u |%12s       |%13s       |%5u |%7u |\n", indexTmp->id, indexTmp->title, indexTmp->authors, indexTmp->year, indexTmp->copies);
@@ -568,14 +575,17 @@ void deleteUser(Student* students, StudentList* theStudent){
     char* s_id = (char*)malloc(sizeof(char));
     printf("What is the ID of the user you want to delete?\n->");
     scanf("%s", s_id);
+    int in = 0;
     if (isNumber(s_id)){
         unsigned int id = (unsigned)atoi(s_id);
         Student* tmp = students;
         for (int i = 1; i < theStudent->length+1; i++){
             tmp = tmp->next;
             if (tmp->id == id){
+                in = 1;
                 printf("\n-----------------------------------------------------");
                 printf("\n| ID |     NAME     |    USERNAME    |   PASSWORD   |\n");
+                printf("-----------------------------------------------------\n");
                 printf("|%3u |%9s     |%12s    |%11s   |\n", tmp->id, tmp->name, tmp->username, tmp->password);
                 printf("-----------------------------------------------------\n");
                 char* sure = (char*)malloc(sizeof(char));
@@ -601,16 +611,65 @@ void deleteUser(Student* students, StudentList* theStudent){
                 sure=NULL;
                 break;
             }
-            if (tmp == NULL){
-                printf("No such book whose ID is %d", id);
-                break;
-            }
+        }
+        if (in == 0){
+            printf("No such reader whose ID is %u", id);
         }
     }else{
         printf("Invalid ID!\n");
     }
     free(s_id);
     s_id = NULL;
+}
+
+void displayAvailableBooks(Book* books, unsigned int length){
+    if (length == 0){
+        printf("\nThere is no book in the library!\n");
+    }else{
+        int numAvailable = 0;
+        printf("\n----------------------- DISPLAY AVAILABLE BOOKS ---------------------------");
+        printf("\n| ID |       TITLE       |       AUTHOR       | YEAR | COPIES | AVAILABLE |\n");
+        printf("---------------------------------------------------------------------------\n");
+        Book* tmp = books->next;
+        while(tmp != NULL){
+            if ((tmp->lend) < (tmp->copies)){
+                numAvailable ++;
+                printf("|%3u |%12s       |%13s       |%5u |%7u |%10u |\n", tmp->id, tmp->title, tmp->authors, tmp->year, tmp->copies, (tmp->copies)-(tmp->lend));
+            }
+            tmp = tmp->next;
+        }
+        if (numAvailable > 1)
+            printf("\nThere are %d kinds of available books in total.\n", numAvailable);
+        else if (numAvailable == 1)
+            printf("\nThere are %d kind of available book in total.\n", numAvailable);
+        else
+            printf("\nNo available books now!\n");
+    }
+}
+
+void displayBorrowedBooks(Book* books, unsigned int length){
+    if (length == 0){
+        printf("\nThere is no book in the library!\n");
+    }else{
+        int numLent = 0;
+        printf("\n------------------------ DISPLAY BOOKS ON LOAN --------------------------");
+        printf("\n| ID |       TITLE       |       AUTHOR       | YEAR | COPIES | ON LOAN |\n");
+        printf("-------------------------------------------------------------------------\n");
+        Book* tmp = books->next;
+        while(tmp != NULL){
+            if ((tmp->lend) > 0){
+                numLent ++;
+                printf("|%3u |%12s       |%13s       |%5u |%7u |%8u |\n", tmp->id, tmp->title, tmp->authors, tmp->year, tmp->copies, tmp->lend);
+            }
+            tmp = tmp->next;
+        }
+        if (numLent > 1)
+            printf("\nThere are %d kinds of books on loan in total.\n", numLent);
+        else if (numLent == 1)
+            printf("\nThere are %d kind of book on loan in total.\n", numLent);
+        else
+            printf("\nNo books on loan now!\n");
+    }
 }
 
 void librarianMenu(BookList* theBook, StudentList* theStudent){
@@ -663,11 +722,11 @@ void librarianMenu(BookList* theBook, StudentList* theStudent){
         printf(" | *                                        * |\n");
         printf(" | | [7] SEARCH SOME READER                 | |\n");
         printf(" | *                                        * |\n");
-        printf(" | | [8] DISPLAY BORROWED BOOKS             | |\n");
+        printf(" | | [8] DISPLAY BOOKS ON LOAN              | |\n");
         printf(" | *                                        * |\n");
-        printf(" | | [9] DISPLAY BOOKS THAR CAN BE BORROWED | |\n");
+        printf(" | | [9] DISPLAY AVAILABLE BOOKS            | |\n");
         printf(" | *                                        * |\n");
-        printf(" | | [10] DELETE SOME USER                   | |\n");
+        printf(" | | [10] DELETE SOME USER                  | |\n");
         printf(" | *                                        * |\n");
         printf(" | | [11] LOG OUT                           | |\n");
         printf(" ----------------------------------------------\n");
@@ -687,6 +746,10 @@ void librarianMenu(BookList* theBook, StudentList* theStudent){
             showListStudents(theStudent->list, theStudent->length);
         else if (strcmp(option, "7") == 0)
             searchReadersMain(theStudent);
+        else if (strcmp(option, "8") == 0)
+            displayBorrowedBooks(theBook->list, theBook->length);
+        else if (strcmp(option, "9") == 0)
+            displayAvailableBooks(theBook->list, theBook->length);
         else if (strcmp(option, "10") == 0)
             deleteUser(theStudent->list, theStudent);
         else if (strcmp(option, "11") == 0)

@@ -13,6 +13,7 @@ void tailInsertBooks(Book* books){
 	Book* new = (Book*)malloc(sizeof(Book));
     new->title = (char*)malloc(sizeof(char));
     new->authors = (char*)malloc(sizeof(char));
+    new->lend = 0;
 	new->next = NULL;
 	tmp->next = new;
 }

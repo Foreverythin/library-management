@@ -63,7 +63,7 @@ int load_books(FILE* file, Book* books, BookList* theBook){
         while (tmp->next != NULL){
 		    tmp = tmp->next;
 	    }
-        if(fscanf(file, "%u %s %s %u %u", &tmp->id, tmp->title, tmp->authors, &tmp->year, &tmp->copies) == EOF){
+        if(fscanf(file, "%u %s %s %u %u %u", &tmp->id, tmp->title, tmp->authors, &tmp->year, &tmp->copies, &tmp->lend) == EOF){
             break;
         }else{
             theBook->length ++;
@@ -77,7 +77,7 @@ int load_books(FILE* file, Book* books, BookList* theBook){
 }
 
 //load the information of students from the students.txt
-void load_students(FILE* file, Student* students, StudentList* theStudent){
+int load_students(FILE* file, Student* students, StudentList* theStudent){
     Student* tmp;
 
     while (1){
@@ -95,6 +95,8 @@ void load_students(FILE* file, Student* students, StudentList* theStudent){
     theStudent->length++;
     tailDeleteStudents(students, theStudent->length);
     theStudent->length--;
+
+    return 0;
 }
 
 
@@ -103,7 +105,7 @@ int store_books(FILE* file, Book* books, BookList* theBook){
     Book* tmp = books;
     for (int i = 0; i < theBook->length; i ++){
         tmp = tmp->next;
-        fprintf(file, "%u %s %s %u %u\n", tmp->id, tmp->title, tmp->authors, tmp->year, tmp->copies);
+        fprintf(file, "%u %s %s %u %u %u\n", tmp->id, tmp->title, tmp->authors, tmp->year, tmp->copies, tmp->lend);
     }
 
     return 0;
