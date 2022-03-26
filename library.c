@@ -324,8 +324,9 @@ void libraryMenu(void){
     free(librarianPassword);
     librarianPassword = NULL;
 
-    distroyBook(theBook->list, theBook->length);
-    distroyStudent(theStudent->list, theStudent->length);
+    destroyBook(theBook->list, theBook->length);
+    destroyStudent(theStudent->list, theStudent->length);
+    destroyBorrowInformation(borrows);
     free(theBook->list);
     theBook->list = NULL;
     free(theStudent->list);
@@ -334,6 +335,8 @@ void libraryMenu(void){
     theBook = NULL;
     free(theStudent);
     theStudent = NULL;
+    free(borrows);
+    borrows = NULL;
     
     return;
 }

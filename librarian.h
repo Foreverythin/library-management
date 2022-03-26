@@ -9,14 +9,10 @@ void searchBooksMain(Book* books, BookList* theBook);
 void searchReadersMain(StudentList* theStudent);
 
 void addBooksMain(Book* books, BookList* theBook);
-// void removeBooksMain(Book* books, BookList* theBook);
-// void removeBooksID(Book* books, BookList* theBook, Student* students, StudentList* theStudent, unsigned int id);
-// void removeBooksTitle(Book* books, BookList* theBook, Student* students, StudentList* theStudent, char* title);
-// void removeBooksAuthors(Book* books, BookList* theBook, Student* students, StudentList* theStudent, char* authors);
+void removeBooksMain(Book* books, BookList* theBook);
+void removeBooksID(Book* books, BookList* theBook, unsigned int id);
 
 void changeInformationBooks(Book* books);
-
-void deleteUser(Student* students, StudentList* theStudent);
 
 void displayAvailableBooks(Book* books, unsigned int length);
 

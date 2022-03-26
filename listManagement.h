@@ -29,8 +29,12 @@ void middleDeleteBooks(Book* books, BookList* theBook, int index);
 
 void middleDeleteStudents(Student* students, StudentList* theStudent, int index);
 
-void distroyBook(Book* books, unsigned int length);
+void middleDeleteBorrows(BorrowInformation* borrows, int index);
 
-void distroyStudent(Student* students, unsigned int length);
+void destroyBook(Book* books, unsigned int length);
+
+void destroyStudent(Student* students, unsigned int length);
+
+void destroyBorrowInformation(BorrowInformation* borrows);
 
 #endif

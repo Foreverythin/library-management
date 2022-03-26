@@ -1,6 +1,4 @@
-1 pangyu pangyu 2020 20 2
-2 java zhangsan 2019 56 1
-3 c/c++ pangyu 2020 56 1
-111 OK pangyu 1896 15 1
-156 hah zhangsan 1236 23 1
-178 world lisi 15 23 1
+111 hello huojin 1598 1 0
+112 world zhangsan 1999 22 2
+154 nvidia nvidia 1998 15 0
+178 amd amd 2014 45 1

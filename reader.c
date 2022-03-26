@@ -188,6 +188,86 @@ void displayMyBooksOnLoan(Book* books, BorrowInformation* borrows, unsigned int 
     }
 }
 
+void returnABook(Book* books, unsigned int length, Student* students, BorrowInformation* borrows, unsigned int stuID){
+    Student* tmp_students = students;
+    tmp_students = tmp_students->next;
+    while(tmp_students){
+        if (tmp_students->id == stuID){
+            if (tmp_students->borrow == 0){
+                printf("You have not borrowed a book!\n");
+                return;
+            }
+            break;
+        }
+        tmp_students = tmp_students->next;
+    }
+    displayMyBooksOnLoan(books, borrows, stuID);
+    char* s_bookID = (char*)malloc(sizeof(char));
+    printf("Which one do you want to return?(Enter the Book ID)\n->");
+    scanf("%s", s_bookID);
+    if (!isNumber(s_bookID)){
+        printf("Invalid ID!\n");
+        free(s_bookID);
+        s_bookID = NULL;
+    }else{
+        unsigned int bookID = (unsigned)atoi(s_bookID);
+        Book* tmp_books = books;
+        tmp_books = tmp_books->next;
+        int have1 = 0;
+        while(tmp_books){
+            if (tmp_books->id == bookID){
+                have1 ++;
+                break;
+            }
+            tmp_books=tmp_books->next;
+        }
+        if (!have1){
+            printf("No book in the library has id %u", bookID);
+            free(s_bookID);
+            s_bookID = NULL;
+        }else{
+            BorrowInformation* tmp_borrows = borrows;
+            tmp_borrows = tmp_borrows->next;
+            int have2 = 0;
+            int borrows_index = 0;
+            while(tmp_borrows){
+                borrows_index ++;
+                if (tmp_borrows->stuID == stuID && tmp_borrows->bookID == bookID){
+                    have2 ++;
+                    break;
+                }
+                tmp_borrows = tmp_borrows->next;
+            }
+            if (!have2){
+                printf("You have not borrowed this book!\n");
+                free(s_bookID);
+                s_bookID = NULL;
+                return;
+            }else{
+                char* yes_no = (char*)malloc(sizeof(char));
+                printf("Are you sure to return this book?(yes/no)\n->");
+                scanf("%s", yes_no);
+                while (strcmp(yes_no, "yes") != 0 && strcmp(yes_no, "no") != 0){
+                    printf("Unknown option!\n");
+                    printf("Are you sure to return this book?(yes/no)\n->");
+                    scanf("%s", yes_no);
+                }
+                if (strcmp(yes_no, "yes") == 0){
+                    tmp_students->borrow --;
+                    tmp_books->lend --;
+                    middleDeleteBorrows(borrows, borrows_index);
+                    printf("Successfully return the book!\n");
+                }else
+                    printf("Return books failed!\n");
+                free(yes_no);
+                yes_no = NULL;
+                free(s_bookID);
+                s_bookID = NULL;
+            }
+        }
+    }
+}
+
 void readerMenu(BookList* theBook, StudentList* theStudent, BorrowInformation* borrows){
     int readerLogin = 0;
     char* option = (char*)malloc(sizeof(char));
@@ -278,6 +358,8 @@ void readerMenu(BookList* theBook, StudentList* theStudent, BorrowInformation* b
             borrowABook(theBook->list, theBook->length, theStudent->list, borrows, currentID);
         else if (strcmp(option, "6") == 0)
             displayMyBooksOnLoan(theBook->list, borrows, currentID);
+        else if (strcmp(option, "5") == 0)
+            returnABook(theBook->list, theBook->length, theStudent->list, borrows, currentID);
         else if (strcmp(option, "7") == 0)
             changePersonalInformation(theStudent->list, theStudent, currentID);
         else if (strcmp(option, "8") == 0)

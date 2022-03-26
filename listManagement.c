@@ -128,6 +128,18 @@ void middleDeleteStudents(Student* students, StudentList* theStudent, int index)
     pre = NULL;
 }
 
+//delete a node in the middle of the borrow information list
+void middleDeleteBorrows(BorrowInformation* borrows, int index){
+    BorrowInformation* tmp = borrows;
+    for (int i = 0; i < index-1; i++){
+        tmp = tmp->next;
+    }
+    BorrowInformation* pre = tmp->next;
+    tmp->next = pre->next;
+    free(pre);
+    pre = NULL;
+}
+
 // display the book list
 void showListBooks(Book* books, unsigned int length){
     if (length == 0){
@@ -135,7 +147,7 @@ void showListBooks(Book* books, unsigned int length){
     }else{
         printf("\n--------------------- DISPLAY ALL BOOKS -----------------------");
         printf("\n| ID |       TITLE       |       AUTHOR       | YEAR | COPIES |\n");
-        printf("-------------------------------------------------------------\n");
+        printf("---------------------------------------------------------------\n");
         Book* tmp = books->next;
         while(tmp != NULL){
             printf("|%3u |%12s       |%13s       |%5u |%7u |\n", tmp->id, tmp->title, tmp->authors, tmp->year, tmp->copies);
@@ -169,16 +181,30 @@ void showListStudents(Student* students, unsigned int length){
     }
 }
 
-void distroyBook(Book* books, unsigned int length){
+void destroyBook(Book* books, unsigned int length){
     while(length){
         tailDeleteBooks(books, length);
         length--;
     }
 }
 
-void distroyStudent(Student* students, unsigned int length){
+void destroyStudent(Student* students, unsigned int length){
     while(length){
         tailDeleteStudents(students, length);        
+        length--;
+    }
+}
+
+void destroyBorrowInformation(BorrowInformation* borrows){
+    int length = 0;
+    BorrowInformation* tmp = borrows;
+    tmp = tmp->next;
+    while(tmp){
+        length++;
+        tmp = tmp->next;
+    }
+    while(length){
+        tailDeleteBorrowInformation(borrows);        
         length--;
     }
 }

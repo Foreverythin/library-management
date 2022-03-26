@@ -9,4 +9,6 @@ void borrowABook(Book* books, unsigned int length, Student* students, BorrowInfo
 
 void displayMyBooksOnLoan(Book* books, BorrowInformation* borrows, unsigned int currentID);
 
+void returnABook(Book* books, unsigned int length, Student* students, BorrowInformation* borrows, unsigned int stuID);
+
 #endif
