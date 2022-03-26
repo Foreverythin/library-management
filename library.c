@@ -316,6 +316,14 @@ void libraryMenu(void){
         fclose(fp_bo);
     }
 
+    FILE* fp_l = fopen("librarian.txt", "w");
+    if (!fp_l){
+        printf("Wrong to store librarian information!\n");
+    }else{
+        fprintf(fp_l, "%s %s", librarianUsername, librarianPassword);
+        fclose(fp_l);
+    }
+
     free(option);
     option = NULL;
 

@@ -677,6 +677,17 @@ void changeInformationBooks(Book* books){
 //     s_id = NULL;
 // }
 
+void changePassword(void){
+    char* password = (char*)malloc(sizeof(char));
+    printf("What is the new password?\n->");
+    scanf("%s", password);
+    strcpy(librarianPassword, password);
+    free(password);
+    password=NULL;
+
+    printf("Successfully Update the password!\n");
+}
+
 void displayAvailableBooks(Book* books, unsigned int length){
     if (length == 0){
         printf("\nThere is no book in the library!\n");
@@ -781,10 +792,12 @@ void librarianMenu(BookList* theBook, StudentList* theStudent){
         printf(" | *                                        * |\n");
         printf(" | | [9] DISPLAY AVAILABLE BOOKS            | |\n");
         printf(" | *                                        * |\n");
-        printf(" | | [10] LOG OUT                           | |\n");
+        printf(" | | [10] CHANGE THE PASSWORD               | |\n");
+        printf(" | *                                        * |\n");
+        printf(" | | [11] LOG OUT                           | |\n");
         printf(" ----------------------------------------------\n");
 
-        printf("\nChoose one option(1-10): \n->");
+        printf("\nChoose one option(1-11): \n->");
         scanf("%s", option);
 
         if (strcmp(option, "1") == 0)
@@ -806,6 +819,8 @@ void librarianMenu(BookList* theBook, StudentList* theStudent){
         else if (strcmp(option, "9") == 0)
             displayAvailableBooks(theBook->list, theBook->length);
         else if (strcmp(option, "10") == 0)
+            changePassword();
+        else if (strcmp(option, "11") == 0)
             librarianLogin = 0;
         else
             printf("Unknown option!\n");
