@@ -5,6 +5,7 @@
 #include "book_management.h"
 #include "listManagement.h"
 #include "librarian.h"
+#include "utility.h"
 
 void changePersonalInformation(Student* students, StudentList* theStudent, unsigned int id){
     Student* tmp = students;
@@ -14,8 +15,8 @@ void changePersonalInformation(Student* students, StudentList* theStudent, unsig
     for (int i = 0; i < theStudent->length; i++){
         tmp = tmp->next;
         if (tmp->id == id){
-            printf("\n-----------------------------------------------------");
-            printf("\n| ID |     NAME     |    USERNAME    |   PASSWORD   |\n");
+            printf("\n-----------------------------------------------------\n");
+            printf("| ID |     NAME     |    USERNAME    |   PASSWORD   |\n");
             printf("|%3u |%9s     |%12s    |%11s   |\n", tmp->id, tmp->name, tmp->username, tmp->password);
             printf("-----------------------------------------------------\n");
             char* yes_no = (char*)malloc(sizeof(char));
@@ -60,7 +61,134 @@ void changePersonalInformation(Student* students, StudentList* theStudent, unsig
     password = NULL;
 }
 
-void readerMenu(BookList* theBook, StudentList* theStudent){
+void borrowABook(Book* books, unsigned int length, Student* students, BorrowInformation* borrows, unsigned int stuID){
+    Student* tmp = students;
+    tmp = tmp->next;
+    while(tmp){
+        if (tmp->id == stuID)
+            break;
+        tmp = tmp->next;
+    }
+    if (tmp->borrow == 5){
+        printf("You are able to borrow at most 5 books! And you have already borrowed 5 books!\n");
+        return;
+    }
+    displayAvailableBooks(books, length);
+    printf("\n");
+    char* s_bookID = (char*)malloc(sizeof(char));
+    printf("Which book do you want to borrow?(Enter the book ID)\n->");
+    scanf("%s", s_bookID);
+    if (!isNumber(s_bookID)){
+        printf("Invalid ID!\n");
+        free(s_bookID);
+        s_bookID = NULL;
+        return;
+    }else{
+        unsigned int bookID = (unsigned)atoi(s_bookID);
+
+        BorrowInformation* tmp_borrows = borrows;
+        tmp_borrows = tmp_borrows->next;
+        while (tmp_borrows)
+        {
+            if (tmp_borrows->stuID == stuID && tmp_borrows->bookID == bookID){
+                printf("You have borrowed this book for one copy!\n");
+                free(s_bookID);
+                s_bookID = NULL;
+                return;
+            }
+            tmp_borrows = tmp_borrows->next;
+        }
+
+        Book* tmpp = books;
+        tmpp = tmpp->next;
+        int judge = 0;
+        while(tmpp){
+            if (tmpp->id == bookID){
+                judge = 1;
+                break;
+            }
+            tmpp = tmpp->next;
+        }
+        if (judge == 0){
+            printf("No book has the ID %u", bookID);
+            free(s_bookID);
+            s_bookID = NULL;
+            return;
+        }else{
+            if (tmpp->lend == tmpp->copies){
+                printf("This book is not available!\n");
+                free(s_bookID);
+                s_bookID = NULL;
+                return;
+            }
+        }
+        printf("---------------------------------------------------------------\n");
+        printf("| ID |       TITLE       |       AUTHOR       | YEAR | COPIES |\n");
+        printf("---------------------------------------------------------------\n");
+        printf("|%3u |%12s       |%13s       |%5u |%7u |\n", tmpp->id, tmpp->title, tmpp->authors, tmpp->year, tmpp->copies);
+        printf("---------------------------------------------------------------\n");
+        char* yes_no = (char*)malloc(sizeof(char));
+        printf("Are you sure to borrow this book?(yes/no)\n->");
+        scanf("%s", yes_no);
+        while(strcmp(yes_no, "yes")!=0 && strcmp(yes_no, "no")!=0){
+            printf("Unknown choice!\n");
+            printf("Are you sure to borrow this book?(yes/no)\n->");
+            scanf("%s", yes_no);
+        }
+        if (strcmp(yes_no, "yes") == 0){
+            tmpp->lend ++;
+            tmp->borrow ++;
+            tailInsertBorrowInformation(borrows);
+            BorrowInformation* tmpBorrows = borrows;
+            while(tmpBorrows->next)
+                tmpBorrows = tmpBorrows->next;
+            tmpBorrows->stuID = stuID;
+            tmpBorrows->bookID = tmpp->id;
+            printf("Successfully borrow one book!\n");
+        }else
+            printf("Borrow failed!\n");
+        free(yes_no);
+        yes_no = NULL;
+    }
+    free(s_bookID);
+    s_bookID = NULL;
+}
+
+void displayMyBooksOnLoan(Book* books, BorrowInformation* borrows, unsigned int stuID){
+    BorrowInformation* tmp_borrows = borrows;
+    tmp_borrows = tmp_borrows->next;
+    int once = 1;
+    int in = 0;
+    Book* tmp_books = books;
+    while(tmp_borrows){
+        if (tmp_borrows->stuID == stuID){
+            if (once){
+                printf("\n-------------- DISPLAY BOOKS I BORROWED --------------");
+                printf("\n| ID |       TITLE       |       AUTHOR       | YEAR |\n");
+                printf("------------------------------------------------------\n");
+                once = 0;
+            }
+            in ++;
+            tmp_books=books->next;
+            while(tmp_books){
+                if(tmp_books->id == tmp_borrows->bookID){
+                    printf("|%3u |%12s       |%13s       |%5u |\n", tmp_books->id, tmp_books->title, tmp_books->authors, tmp_books->year);
+                }
+                tmp_books = tmp_books->next;
+            }
+        }
+        tmp_borrows = tmp_borrows->next;
+    }
+    if (in == 0){
+        printf("You have not borrowed one book!\n");
+        return;
+    }else{
+        printf("------------------------------------------------------\n");
+        printf("You have borrowed %d books in total.\n", in);
+    }
+}
+
+void readerMenu(BookList* theBook, StudentList* theStudent, BorrowInformation* borrows){
     int readerLogin = 0;
     char* option = (char*)malloc(sizeof(char));
     int currentID;
@@ -124,27 +252,35 @@ void readerMenu(BookList* theBook, StudentList* theStudent){
         printf(" | *                                        * |\n");
         printf(" | | [2] SEARCH FOR A BOOK                  | |\n");
         printf(" | *                                        * |\n");
-        printf(" | | [3] DISPLAY BOOKS THAR CAN BE BORROWED | |\n");
+        printf(" | | [3] DISPLAY AVAILABLE BOOKS            | |\n");
         printf(" | *                                        * |\n");
         printf(" | | [4] BORROW A BOOK                      | |\n");
         printf(" | *                                        * |\n");
         printf(" | | [5] RETURN A BOOK                      | |\n");
         printf(" | *                                        * |\n");
-        printf(" | | [6] CHANGE PERSONAL INFORMATION        | |\n");
+        printf(" | | [6] DISPLAY MY BOOKS ON LOAN           | |\n");
         printf(" | *                                        * |\n");
-        printf(" | | [7] LOG OUT                            | |\n");
+        printf(" | | [7] CHANGE PERSONAL INFORMATION        | |\n");
+        printf(" | *                                        * |\n");
+        printf(" | | [8] LOG OUT                            | |\n");
         printf(" ----------------------------------------------\n");
 
-        printf("\nChoose one option(1-7): \n->");
+        printf("\nChoose one option(1-8): \n->");
         scanf("%s", option);
 
         if (strcmp(option, "1") == 0)
             showListBooks(theBook->list, theBook->length);
         else if (strcmp(option, "2") == 0)
             searchBooksMain(theBook->list, theBook);
+        else if (strcmp(option, "3") == 0)
+            displayAvailableBooks(theBook->list, theBook->length);
+        else if (strcmp(option, "4") == 0)
+            borrowABook(theBook->list, theBook->length, theStudent->list, borrows, currentID);
         else if (strcmp(option, "6") == 0)
-            changePersonalInformation(theStudent->list, theStudent, currentID);
+            displayMyBooksOnLoan(theBook->list, borrows, currentID);
         else if (strcmp(option, "7") == 0)
+            changePersonalInformation(theStudent->list, theStudent, currentID);
+        else if (strcmp(option, "8") == 0)
             readerLogin = 0;
         else
             printf("Unknown option!\n");

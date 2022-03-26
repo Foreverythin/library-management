@@ -12,7 +12,7 @@ char* librarianUsername;
 char* librarianPassword;
 
 // initialize the library, load data to the data structure
-void initLibrary(BookList* theBook, StudentList* theStudent) {
+void initLibrary(BookList* theBook, StudentList* theStudent, BorrowInformation* borrows) {
     theBook->length = 0;
     theBook->list = (Book*)malloc(sizeof(Book));
     Book* books = theBook->list;
@@ -21,6 +21,8 @@ void initLibrary(BookList* theBook, StudentList* theStudent) {
     theStudent->list = (Student*)malloc(sizeof(Student));
     Student* students = theStudent->list;
     students->next = NULL;
+    borrows->next = NULL;
+
     FILE* fp_b = fopen("books.txt", "r");
     if (!fp_b) {
         printf("error open\n");
@@ -49,6 +51,14 @@ void initLibrary(BookList* theBook, StudentList* theStudent) {
         load_students(fp_r, students, theStudent);
         showListStudents(theStudent->list, theStudent->length);
         fclose(fp_r);
+    }
+
+    FILE* fp_bo = fopen("borrowInformation.txt", "r");
+    if (!fp_bo){
+        printf("Error opening of borrowInformation.txt\n");
+    }else{
+        load_borrowInformation(fp_bo, borrows);
+        fclose(fp_bo);
     }
 }
 
@@ -86,7 +96,7 @@ int load_students(FILE* file, Student* students, StudentList* theStudent){
         while (tmp->next != NULL){
             tmp = tmp->next;
         }
-        if (fscanf(file, "%u %s %s %s", &tmp->id, tmp->name, tmp->username, tmp->password) == EOF){
+        if (fscanf(file, "%u %s %s %s %u", &tmp->id, tmp->name, tmp->username, tmp->password, &tmp->borrow) == EOF){
             break;
         }else{
             theStudent->length ++;
@@ -95,6 +105,23 @@ int load_students(FILE* file, Student* students, StudentList* theStudent){
     theStudent->length++;
     tailDeleteStudents(students, theStudent->length);
     theStudent->length--;
+
+    return 0;
+}
+
+// load the books' information on loan from the borrowInformation.txt
+int load_borrowInformation(FILE* file, BorrowInformation* borrows){
+    BorrowInformation* tmp;
+
+    while(1){
+        tmp = borrows;
+        tailInsertBorrowInformation(borrows);
+        while (tmp->next != NULL)
+            tmp = tmp->next;
+        if (fscanf(file, "%u %u", &tmp->stuID, &tmp->bookID) == EOF)
+            break;
+    }
+    tailDeleteBorrowInformation(borrows);
 
     return 0;
 }
@@ -115,9 +142,20 @@ int store_readers(FILE* file, Student* students, StudentList* theStudent){
     Student* tmp = students;
     for (int i = 0; i < theStudent->length; i ++){
         tmp = tmp->next;
-        fprintf(file, "%u %s %s %s\n", tmp->id, tmp->name, tmp->username, tmp->password);
+        fprintf(file, "%u %s %s %s %u\n", tmp->id, tmp->name, tmp->username, tmp->password, tmp->borrow);
     }
 
+    return 0;
+}
+
+int store_borrowInformation(FILE* file, BorrowInformation* borrows){
+    BorrowInformation* tmp = borrows;
+    tmp = tmp->next;
+    while(tmp){
+        fprintf(file, "%u %u\n", tmp->stuID, tmp->bookID);
+        tmp = tmp->next;
+    }
+    
     return 0;
 }
 
@@ -198,7 +236,8 @@ void libraryMenu(void){
     char* option = (char*)malloc(sizeof(char));
     BookList* theBook = (BookList*)malloc(sizeof(BookList));
     StudentList* theStudent = (StudentList*)malloc(sizeof(StudentList)); 
-    initLibrary(theBook, theStudent);
+    BorrowInformation* borrows = (BorrowInformation*)malloc(sizeof(BorrowInformation));
+    initLibrary(theBook, theStudent, borrows);
     
     while (libraryOpen) {
         printf("\n");
@@ -229,7 +268,7 @@ void libraryMenu(void){
         } 
         else if (strcmp(option, "2") == 0){
             printf("\n     | * - * - * Reader login * - * - * |\n");
-            readerMenu(theBook, theStudent);
+            readerMenu(theBook, theStudent, borrows);
         }
         else if (strcmp(option, "3") == 0){
             printf("\n| * - * - * Register an account * - * - * |\n");
@@ -267,6 +306,14 @@ void libraryMenu(void){
     }else{
         store_readers(fp_r, theStudent->list, theStudent);
         fclose(fp_r);
+    }
+
+    FILE* fp_bo = fopen("borrowInformation.txt", "w");
+    if (!fp_bo){
+        printf("Wrong to store borrowing information!\n");
+    }else{
+        store_borrowInformation(fp_bo, borrows);
+        fclose(fp_bo);
     }
 
     free(option);

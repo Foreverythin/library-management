@@ -5,7 +5,7 @@
 void libraryMenu(void);
 
 //initialize the library
-void initLibrary(BookList* theBook, StudentList* thstudent);
+void initLibrary(BookList* theBook, StudentList* thstudent, BorrowInformation* borrows);
 
 
 void registerAccountsMain(StudentList* theStudent);

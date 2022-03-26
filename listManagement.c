@@ -28,6 +28,16 @@ void tailInsertStudents(Student* students){
     new->name = (char*)malloc(sizeof(char));
     new->username = (char*)malloc(sizeof(char));
     new->password = (char*)malloc(sizeof(char));
+    new->borrow = 0;
+    new->next = NULL;
+    tmp->next = new;
+}
+
+void tailInsertBorrowInformation(BorrowInformation* borrows){
+    BorrowInformation* tmp = borrows;
+    while (tmp->next != NULL)
+        tmp = tmp->next;
+    BorrowInformation* new = (BorrowInformation*)malloc(sizeof(BorrowInformation));
     new->next = NULL;
     tmp->next = new;
 }
@@ -78,6 +88,22 @@ void tailDeleteStudents(Student* students, unsigned int length){
     pre = NULL;
 }
 
+void tailDeleteBorrowInformation(BorrowInformation* borrows){
+    BorrowInformation* pre = borrows;
+    BorrowInformation* tmp = borrows;
+    int length = 0;
+    pre = pre->next;
+    while(pre){
+        length ++;
+        pre = pre->next;
+    }
+    for (int i = 0; i < length-1; i++)
+        tmp = tmp->next;
+    tmp->next = NULL;
+    free(pre);
+    pre = NULL;
+}
+
 //delete a node in the middle of the book list
 void middleDeleteBooks(Book* books, BookList* theBook, int index){
     Book* tmp = books;
@@ -107,9 +133,9 @@ void showListBooks(Book* books, unsigned int length){
     if (length == 0){
         printf("\nThere is no book in the library!\n");
     }else{
-        printf("\n------------------- DISPLAY ALL BOOKS -------------------------");
+        printf("\n--------------------- DISPLAY ALL BOOKS -----------------------");
         printf("\n| ID |       TITLE       |       AUTHOR       | YEAR | COPIES |\n");
-        printf("---------------------------------------------------------------\n");
+        printf("-------------------------------------------------------------\n");
         Book* tmp = books->next;
         while(tmp != NULL){
             printf("|%3u |%12s       |%13s       |%5u |%7u |\n", tmp->id, tmp->title, tmp->authors, tmp->year, tmp->copies);
@@ -128,12 +154,12 @@ void showListStudents(Student* students, unsigned int length){
         printf("\nThere is no reader registered in the library!\n");
     }
     else{
-        printf("\n-------------- DISPLAY ALL READERS ------------------");
-        printf("\n| ID |     NAME     |    USERNAME    |   PASSWORD   |\n");
-        printf("-----------------------------------------------------\n");
+        printf("\n------------------ DISPLAY ALL READERS -----------------------");
+        printf("\n| ID |     NAME     |    USERNAME    |   PASSWORD   | BORROW |\n");
+        printf("--------------------------------------------------------------\n");
         Student* tmp = students->next;
         while (tmp != NULL){
-            printf("|%3u |%9s     |%12s    |%11s   |\n", tmp->id, tmp->name, tmp->username, tmp->password);
+            printf("|%3u |%9s     |%12s    |%11s   |%7u |\n", tmp->id, tmp->name, tmp->username, tmp->password, tmp->borrow);
             tmp = tmp->next;
         }
         if (length > 1)

@@ -9,6 +9,8 @@ void tailInsertBooks(Book* books);
 //insert a node at the tail of the student list and return the pointer pointing the last node
 void tailInsertStudents(Student* students);
 
+void tailInsertBorrowInformation(BorrowInformation* borrows);
+
 //
 void showListBooks(Book* books, unsigned int length);
 
@@ -20,6 +22,8 @@ void tailDeleteBooks(Book* books, unsigned int length);
 
 //
 void tailDeleteStudents(Student* students, unsigned int length);
+
+void tailDeleteBorrowInformation(BorrowInformation* borrows);
 
 void middleDeleteBooks(Book* books, BookList* theBook, int index);
 
