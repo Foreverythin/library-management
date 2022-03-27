@@ -3,7 +3,7 @@
 #include "library.h"
 
 int main(void){
-	printf("Welcome to our library~\n");
+	printf("\n  Welcome to our library~\n");
 	libraryMenu();
 
 	return 0;

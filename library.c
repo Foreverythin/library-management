@@ -30,7 +30,6 @@ void initLibrary(BookList* theBook, StudentList* theStudent, BorrowInformation* 
     }
     else {
         load_books(fp_b, books, theBook);
-        showListBooks(theBook->list, theBook->length);
         fclose(fp_b);
     }
     
@@ -41,7 +40,6 @@ void initLibrary(BookList* theBook, StudentList* theStudent, BorrowInformation* 
         librarianUsername = (char*)malloc(sizeof(char));
         librarianPassword = (char*)malloc(sizeof(char));
         fscanf(fp_l, "%s %s", librarianUsername, librarianPassword);
-        printf("%s %s\n", librarianUsername, librarianPassword);
         fclose(fp_l);    
     }
 
@@ -50,7 +48,6 @@ void initLibrary(BookList* theBook, StudentList* theStudent, BorrowInformation* 
         printf("Error opening of readers.txt\n");
     }else{
         load_students(fp_r, students, theStudent);
-        showListStudents(theStudent->list, theStudent->length);
         fclose(fp_r);
     }
 
