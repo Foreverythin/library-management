@@ -29,7 +29,7 @@ clean:
 # dependencies
 
 main.o: main.c library.h
-library.o: library.c book_management.h listManagement.h library.h librarian.h reader.h
+library.o: library.c book_management.h listManagement.h library.h librarian.h reader.h utility.c
 librarian.o: librarian.c book_management.h librarian.h listManagement.h utility.h
 listManagement.o: listManagement.c book_management.h listManagement.h
 reader.o: reader.c book_management.h listManagement.h librarian.h utility.h

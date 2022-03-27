@@ -7,6 +7,7 @@
 #include "library.h"
 #include "librarian.h"
 #include "reader.h"
+#include "utility.h"
 
 char* librarianUsername;
 char* librarianPassword;
@@ -173,18 +174,43 @@ void registerAccounts(Student* students, StudentList* theStudent, unsigned int i
 }
 
 void registerAccountsMain(StudentList* theStudent){
-    unsigned int id;
+    char* s_id = (char*)malloc(sizeof(char));
     char* name = (char*)malloc(sizeof(char));
     char* username = (char*)malloc(sizeof(char));
     char* password = (char*)malloc(sizeof(char));
     char* passwordAgain = (char*)malloc(sizeof(char));
     printf("\nPlease enter your student ID: \n->");
-    scanf("%u", &id);
+    scanf("%s", s_id);
+    if (!isNumber(s_id)){
+        printf("Invalid ID!\n");
+        free(name);
+        name = NULL;
+        free(username);
+        username = NULL;
+        free(password);
+        password = NULL;
+        free(passwordAgain);
+        password = NULL;
+        free(s_id);
+        s_id = NULL;
+        return;
+    }
+    unsigned int id = (unsigned)atoi(s_id);
     Student* tmp = theStudent->list;
     for (int i = 0; i < theStudent->length; i++){
         tmp = tmp->next;
         if (id == tmp->id){
             printf("The ID may not be correct, because it is the same to others'!\n");
+            free(name);
+            name = NULL;
+            free(username);
+            username = NULL;
+            free(password);
+            password = NULL;
+            free(passwordAgain);
+            password = NULL;
+            free(s_id);
+            s_id = NULL;
             return;
         }
     }
@@ -228,6 +254,8 @@ void registerAccountsMain(StudentList* theStudent){
     password = NULL;
     free(passwordAgain);
     password = NULL;
+    free(s_id);
+    s_id = NULL;
 }
 
 // the library main menu
