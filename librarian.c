@@ -245,6 +245,14 @@ void searchBooksMain(Book* books, BookList* theBook){
                 return;
             }
             unsigned int id = (unsigned)atoi(s_id);
+            if (id<=0 || id>999){
+                printf("The ID number must be in [1, 999]!\n");
+                free(s_id);
+                s_id = NULL;
+                free(searchChoice4);
+                searchChoice4 = NULL;
+                return;
+            }
             BookList tmp;
             tmp = find_book_by_id(theBook->list, theBook, id);
             if (tmp.length != 0){
@@ -338,6 +346,14 @@ void searchBooksMain(Book* books, BookList* theBook){
                 return;
             }
             unsigned int year = (unsigned)atoi(s_year);
+            if (year<=0 || year>2022){
+                printf("Invalid year!\n");
+                free(s_year);
+                s_year = NULL;
+                free(searchChoice4);
+                searchChoice4 = NULL;
+                return;
+            }
             BookList tmp;
             tmp = find_book_by_year(theBook->list, theBook, year);
             if (tmp.length != 0){
@@ -375,6 +391,14 @@ void searchBooksMain(Book* books, BookList* theBook){
                 return;
             }
             unsigned int copies = (unsigned)atoi(s_copies);
+            if (copies == 0){
+                printf("The number of copies must be larger than 0!\n");
+                free(s_copies);
+                s_copies = NULL;
+                free(searchChoice4);
+                searchChoice4 = NULL;
+                return;
+            }
             BookList tmp;
             tmp = find_book_by_copies(theBook->list, theBook, copies);
             if (tmp.length != 0){
@@ -428,6 +452,14 @@ void searchReadersMain(StudentList* theStudent){
                 return;
             }
             unsigned int id = (unsigned)atoi(s_id);
+            if (id<=0 || id>999){
+                printf("The ID number must be in [1, 999]!\n");
+                free(s_id);
+                s_id = NULL;
+                free(searchChoice7);
+                searchChoice7 = NULL;
+                return;
+            }
             searchReadersID(theStudent->list, theStudent, id);
             free(s_id);
             s_id = NULL;
@@ -464,8 +496,8 @@ void addBooksMain(Book* books, BookList* theBook){
         return;
     }
     unsigned int id = (unsigned)atoi(s_id);
-    if (id<0 || id>999){
-        printf("The Book ID must be in (0, 1000)!\n");
+    if (id<=0 || id>999){
+        printf("The Book ID must be in [1, 999]!\n");
         free(s_id);
         s_id = NULL;
         free(title);
@@ -480,9 +512,20 @@ void addBooksMain(Book* books, BookList* theBook){
         if (tmp->id == id){
             printf("The book whose ID is %d has already been collected in the library.\n", id);
             printf("So how many copies of this book do you want to add: \n->");
-            scanf("%u", &copies);
+            char* s_copies = (char*)malloc(sizeof(char));
+            scanf("%s", s_copies);
+            while (!isNumber(s_copies)){
+                printf("Invalid number!\n");
+                printf("The book's copies: \n->");
+                scanf("%s", s_copies);
+            }
+            copies = (unsigned)atoi(s_copies);
             tmp->copies += copies;
-            printf("Successfully add books!\n");
+            if (copies != 0){
+                printf("Successfully add books!\n");
+            }
+            free(s_copies);
+            s_copies = NULL;
             break;
         }
         tmp = tmp->next;
@@ -499,17 +542,52 @@ void addBooksMain(Book* books, BookList* theBook){
         printf("The book's authors: \n->");
         scanf("%s", t->authors);
         printf("The year of publication of this book: \n->");
-        scanf("%u", &year);
+        char* s_year = (char*)malloc(sizeof(char));
+        scanf("%s", s_year);
+        while (!isNumber(s_year)){
+            printf("Invalid year!\n");
+            printf("The year of publication of this book: \n->");
+            scanf("%s", s_year);
+        }
+        year = (unsigned)atoi(s_year);
         while (year <= 0 || year > 2022){
             printf("Invalid year!\n");
             printf("The year of publication of this book: \n->");
-            scanf("%u", &year);
+            scanf("%s", s_year);
+            while (!isNumber(s_year)){
+                printf("Invalid year!\n");
+                printf("The year of publication of this book: \n->");
+                scanf("%s", s_year);
+            }
+            year = (unsigned)atoi(s_year);
         }
         t->year = year;
         printf("The book's copies: \n->");
-        scanf("%u", &t->copies);
+        char* s_copies = (char*)malloc(sizeof(char));
+        scanf("%s", s_copies);
+        while (!isNumber(s_copies)){
+            printf("Invalid number!\n");
+            printf("The book's copies: \n->");
+            scanf("%s", s_copies);
+        }
+        copies = (unsigned)atoi(s_copies);
+        t->copies = copies;
         t->id = id;
-        printf("Successfully add books!\n");
+        while (copies == 0){
+            printf("The number of copies must be larger than 0!\n");
+            printf("The book's copies: \n->");
+            scanf("%s", s_copies);
+            while (!isNumber(s_copies)){
+                printf("Invalid number!\n");
+                printf("The book's copies: \n->");
+                scanf("%s", s_copies);
+            }
+            copies = (unsigned)atoi(s_copies);
+        }
+        free(s_year);
+        s_year = NULL;
+        free(s_copies);
+        s_copies = NULL;
     }
 
     free(s_id);
@@ -546,7 +624,7 @@ void removeBooksID(Book* books, BookList* theBook, unsigned int id){
             tmp.list = NULL;
             return;
         }
-        printf("Are you sure to remove it?\n->");
+        printf("Are you sure to remove it?(yes/no)\n->");
         char* yes_no = (char*)malloc(sizeof(char));
         scanf("%s", yes_no);
         while (strcmp(yes_no, "yes") != 0 && strcmp(yes_no, "no") != 0){
@@ -591,6 +669,12 @@ void removeBooksMain(Book* books, BookList* theBook){
         return;
     }else{
         unsigned int id = (unsigned)atoi(s_id);
+        if (id<=0 || id>999){
+            printf("The ID number must be in [1, 999]!\n");
+            free(s_id);
+            s_id = NULL;
+            return;
+        }
         removeBooksID(books, theBook, id);
         free(s_id);
         s_id = NULL;
@@ -605,12 +689,20 @@ void changeInformationBooks(Book* books){
 
     if (isNumber(s_id)){
         unsigned int id = (unsigned)atoi(s_id);
+        if (id<=0 || id>999){
+            printf("The ID number must be in [1, 999]!\n");
+            free(s_id);
+            s_id = NULL;
+            return;
+        }
         Book* tmp = books;
         tmp = tmp->next;
         while(tmp->id != id){
             tmp = tmp->next;
             if (tmp == NULL){
                 printf("No books in the library have this ID!\n");
+                free(s_id);
+                s_id = NULL;
                 return;
             }
         }

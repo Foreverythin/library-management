@@ -85,6 +85,12 @@ void borrowABook(Book* books, unsigned int length, Student* students, BorrowInfo
         return;
     }else{
         unsigned int bookID = (unsigned)atoi(s_bookID);
+        if (bookID<=0 || bookID>999){
+            printf("The ID number must be in (0, 1000)!\n");
+            free(s_bookID);
+            s_bookID = NULL;
+            return;
+        }
 
         BorrowInformation* tmp_borrows = borrows;
         tmp_borrows = tmp_borrows->next;
@@ -211,6 +217,13 @@ void returnABook(Book* books, unsigned int length, Student* students, BorrowInfo
         s_bookID = NULL;
     }else{
         unsigned int bookID = (unsigned)atoi(s_bookID);
+        if (bookID<=0 || bookID>999){
+            printf("The ID number must be in (0, 1000)!\n");
+            free(s_bookID);
+            s_bookID = NULL;
+            return;
+        }
+
         Book* tmp_books = books;
         tmp_books = tmp_books->next;
         int have1 = 0;
@@ -225,6 +238,7 @@ void returnABook(Book* books, unsigned int length, Student* students, BorrowInfo
             printf("No book in the library has id %u", bookID);
             free(s_bookID);
             s_bookID = NULL;
+            return;
         }else{
             BorrowInformation* tmp_borrows = borrows;
             tmp_borrows = tmp_borrows->next;
@@ -263,6 +277,7 @@ void returnABook(Book* books, unsigned int length, Student* students, BorrowInfo
                 yes_no = NULL;
                 free(s_bookID);
                 s_bookID = NULL;
+                return;
             }
         }
     }

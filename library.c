@@ -193,6 +193,20 @@ void registerAccountsMain(StudentList* theStudent){
         return;
     }
     unsigned int id = (unsigned)atoi(s_id);
+    if (id<=0 || id>999){
+        printf("The ID number must be in [1, 999]!\n");
+        free(name);
+        name = NULL;
+        free(username);
+        username = NULL;
+        free(password);
+        password = NULL;
+        free(passwordAgain);
+        password = NULL;
+        free(s_id);
+        s_id = NULL;
+        return;
+    }
     Student* tmp = theStudent->list;
     for (int i = 0; i < theStudent->length; i++){
         tmp = tmp->next;
