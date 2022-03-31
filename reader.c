@@ -40,6 +40,11 @@ void changePersonalInformation(Student* students, StudentList* theStudent, unsig
                 if (strcmp(yes_no, "yes") == 0){
                     printf("What password do you want to change to?\n->");
                     scanf("%s", password);
+                    while (strlen(password) < 6){
+                        printf("The password's length should be at least 6!\n");
+                        printf("What password do you want to change to?\n->");
+                        scanf("%s", password);
+                    }
                     strcpy(tmp->password, password);
                     numChanges ++;
                     break;

@@ -26,7 +26,7 @@ void initLibrary(BookList* theBook, StudentList* theStudent, BorrowInformation* 
 
     FILE* fp_b = fopen("books.txt", "r");
     if (!fp_b) {
-        printf("error open\n");
+        printf("\n");
     }
     else {
         load_books(fp_b, books, theBook);
@@ -248,6 +248,11 @@ void registerAccountsMain(StudentList* theStudent){
     }
     printf("Please enter your password: \n->");
     scanf("%s", password);
+    while (strlen(password) < 6){
+        printf("The password's length should be at least 6!\n");
+        printf("Please enter your password: \n->");
+        scanf("%s", password);
+    }
     printf("Please repeat your password again: \n->");
     scanf("%s", passwordAgain);
     if (strcmp(password, passwordAgain) != 0)
@@ -335,7 +340,10 @@ void libraryMenu(void){
     if (!fp_b){
         printf("wrong to store books!\n");
     }else{
-        store_books(fp_b, theBook->list, theBook);
+        if (!store_books(fp_b, theBook->list, theBook))
+            printf("\nSuccessfully store the books' information!\n");
+        else
+            printf("\nStoring books'information failed!\n");
         fclose(fp_b);
     }
 
@@ -343,15 +351,21 @@ void libraryMenu(void){
     if (!fp_r){
         printf("wrong to store readers!\n");
     }else{
-        store_readers(fp_r, theStudent->list, theStudent);
+        if (!store_readers(fp_r, theStudent->list, theStudent))
+            printf("Successfully store the readers' information!\n");
+        else
+            printf("Storing readers'information failed!\n");
         fclose(fp_r);
     }
 
     FILE* fp_bo = fopen("borrowInformation.txt", "w");
     if (!fp_bo){
-        printf("Wrong to store borrowing information!\n");
+        printf("Storing borrowing information failed!\n");
     }else{
-        store_borrowInformation(fp_bo, borrows);
+        if (!store_borrowInformation(fp_bo, borrows))
+            printf("Successfully store the borrowing information!\n");
+        else
+            printf("Storing borrowing information failed!\n");
         fclose(fp_bo);
     }
 
@@ -359,7 +373,10 @@ void libraryMenu(void){
     if (!fp_l){
         printf("Wrong to store librarian information!\n");
     }else{
-        fprintf(fp_l, "%s %s", librarianUsername, librarianPassword);
+        if (fprintf(fp_l, "%s %s", librarianUsername, librarianPassword) == (strlen(librarianUsername)+strlen(librarianPassword)+1))
+            printf("Successfully store the librarian's information!\n");
+        else
+            printf("Storing the librarian's information failed!\n");
         fclose(fp_l);
     }
 

@@ -785,6 +785,11 @@ void changePassword(void){
     char* password = (char*)malloc(sizeof(char));
     printf("What is the new password?\n->");
     scanf("%s", password);
+    while (strlen(password) < 6){
+        printf("The password's length should be at least 6!\n");
+        printf("What is the new password?\n->");
+        scanf("%s", password);
+    }
     strcpy(librarianPassword, password);
     free(password);
     password=NULL;

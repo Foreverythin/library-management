@@ -26,28 +26,28 @@ typedef struct _BookList {
 }BookList;
 
 typedef struct _Student {
-	unsigned int id;
-	char* name;
-	char* username;
-	char* password;
-	unsigned int borrow;
-    struct _Student* next;
+	unsigned int id; // student ID
+	char* name; // student Name
+	char* username; // username when logging in
+	char* password; // password when logging in and the length is larger than 5
+	unsigned int borrow; // number of books the student borrowed
+    struct _Student* next; //pointer to the next student element
 }Student;
 
 typedef struct _StudentList{
-    Student* list;
-    unsigned int length;
+    Student* list; // pointer to a list of struct Student.
+    unsigned int length; // number of elements in the (Student*) List
 }StudentList;
 
 typedef struct _BorrowInformation {
-	unsigned int stuID;
-	unsigned int bookID;
-	struct _BorrowInformation* next;
+	unsigned int stuID; // Student ID who borrow books
+	unsigned int bookID; // Book ID which was borrowed by the student whose ID is stuID
+	struct _BorrowInformation* next; // pointer to the next BorrowInformation element
 }BorrowInformation;
 
 
-extern char* librarianUsername;
-extern char* librarianPassword;
+extern char* librarianUsername; // The librarian's username when logging in
+extern char* librarianPassword; // The librarian's password when logging in, and the length must be larger than 5
 
 
 //saves the database of books in the specified file
@@ -58,6 +58,8 @@ int store_books(FILE *file, Book* books, BookList* theBook);
 //returns 0 if readers were stored correctly, or an error code otherwise
 int store_readers(FILE* file, Student* students, StudentList* theStudent);
 
+// save the database of borrowing information, from one student ID to one book ID
+// returns 0 if borrowing information was stored correctly, or an error code otherwise
 int store_borrowInformation(FILE* file, BorrowInformation* borrows);
 
 //loads the database of books from the specified file
@@ -66,6 +68,8 @@ int store_borrowInformation(FILE* file, BorrowInformation* borrows);
 int load_books(FILE *file, Book* books, BookList* theBook);
 
 //loads the database of students from the specified file
+//the file has already been in the bin directory
+//returns 0 if students were loaded correctly, or an error code otherwise
 int load_students(FILE* file, Student* students, StudentList* theStudent);
 
 int load_borrowInformation(FILE* file, BorrowInformation* borrows);
