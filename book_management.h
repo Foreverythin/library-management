@@ -100,11 +100,24 @@ BookList find_book_by_author (Book* books, BookList* theBook, const char *author
 //list is the NULL pointer.
 BookList find_book_by_year (Book* books, BookList* theBook, unsigned int year);
 
+//finds books published in the given id.
+//returns a Booklist structure, where the field "list" is a list of books, or null if no book with the 
+//provided title can be found. The length of the list is also recorded in the returned structure, with 0 in case
+//list is the NULL pointer.
 BookList find_book_by_id (Book* books, BookList* theBook, unsigned int id);
 
+//finds books published in the given number of copies.
+//returns a Booklist structure, where the field "list" is a list of books, or null if no book with the 
+//provided title can be found. The length of the list is also recorded in the returned structure, with 0 in case
+//list is the NULL pointer.
 BookList find_book_by_copies (Book* books, BookList* theBook, unsigned int copies);
 
+//finds students in the given id.
+//returns nothing
 void searchReadersID(Student* students, StudentList* theStudent, unsigned int id);
+
+//finds students in the given name.
+//returns nothing
 void searchReadersName(Student* students, StudentList* theStudent, char* name);
 
 

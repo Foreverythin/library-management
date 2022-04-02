@@ -4,7 +4,8 @@
 #include "book_management.h"
 #include "listManagement.h"
 
-// insert a new node to the book list
+// insert a new node to the book list at the tail
+// books is the pointer pointing to the head node of the book list
 void tailInsertBooks(Book* books){
     Book* tmp = books;
 	while (tmp->next != NULL){
@@ -18,7 +19,8 @@ void tailInsertBooks(Book* books){
 	tmp->next = new;
 }
 
-// insert a new node to the student list
+// insert a new node to the student list at the tail
+// students is the pointer pointing to the head node of the student list
 void tailInsertStudents(Student* students){
     Student* tmp = students;
     while (tmp->next != NULL){
@@ -33,6 +35,8 @@ void tailInsertStudents(Student* students){
     tmp->next = new;
 }
 
+// insert a new node to the borrowing informaion list at the tail
+// borrows is the pointer pointing to the head node of the borrowing information list
 void tailInsertBorrowInformation(BorrowInformation* borrows){
     BorrowInformation* tmp = borrows;
     while (tmp->next != NULL)
@@ -43,6 +47,8 @@ void tailInsertBorrowInformation(BorrowInformation* borrows){
 }
 
 // delete a node from the tail of the list
+// books is the pointer pointing to the head node of the book list
+// length is the number of nodes before deleting except the head node
 void tailDeleteBooks(Book* books, unsigned int length){
 	Book* pre = books;
 	Book* L = books;
@@ -65,6 +71,8 @@ void tailDeleteBooks(Book* books, unsigned int length){
 }
 
 // delete a node from the tail of the list
+// students is the pointer pointing to the head node of the student list
+// length is the number of nodes before deleting except the head node
 void tailDeleteStudents(Student* students, unsigned int length){
     Student* pre = students;
     Student* L = students;
@@ -88,6 +96,9 @@ void tailDeleteStudents(Student* students, unsigned int length){
     pre = NULL;
 }
 
+// delete a node from the tail of the list
+// borrows is the pointer pointing to the head node of the borrowing information list
+// length is the number of nodes before deleting except the head node
 void tailDeleteBorrowInformation(BorrowInformation* borrows){
     BorrowInformation* pre = borrows;
     BorrowInformation* tmp = borrows;
@@ -104,7 +115,8 @@ void tailDeleteBorrowInformation(BorrowInformation* borrows){
     pre = NULL;
 }
 
-//delete a node in the middle of the book list
+// delete a node in the middle of the book list
+// index is the position of node you want to delete
 void middleDeleteBooks(Book* books, BookList* theBook, int index){
     Book* tmp = books;
     for (int i = 0; i < index-1; i++){
@@ -117,6 +129,7 @@ void middleDeleteBooks(Book* books, BookList* theBook, int index){
 }
 
 //delete a node in the middle of the student list
+// index is the position of node you want to delete
 void middleDeleteStudents(Student* students, StudentList* theStudent, int index){
     Student* tmp = students;
     for (int i = 0; i < index-1; i++){
@@ -129,6 +142,7 @@ void middleDeleteStudents(Student* students, StudentList* theStudent, int index)
 }
 
 //delete a node in the middle of the borrow information list
+// index is the position of node you want to delete
 void middleDeleteBorrows(BorrowInformation* borrows, int index){
     BorrowInformation* tmp = borrows;
     for (int i = 0; i < index-1; i++){
@@ -181,6 +195,7 @@ void showListStudents(Student* students, unsigned int length){
     }
 }
 
+// free the space of book list in the heap
 void destroyBook(Book* books, unsigned int length){
     while(length){
         tailDeleteBooks(books, length);
@@ -188,6 +203,7 @@ void destroyBook(Book* books, unsigned int length){
     }
 }
 
+// free the space of student list in the heap
 void destroyStudent(Student* students, unsigned int length){
     while(length){
         tailDeleteStudents(students, length);        
@@ -195,6 +211,7 @@ void destroyStudent(Student* students, unsigned int length){
     }
 }
 
+// free the space of borrowing information list in the heap
 void destroyBorrowInformation(BorrowInformation* borrows){
     int length = 0;
     BorrowInformation* tmp = borrows;

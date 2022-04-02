@@ -7,6 +7,11 @@
 #include "librarian.h"
 #include "utility.h"
 
+// to change personal information
+// the username and password can be changed, but the length of the password should not less than 6
+// students is the pointer pointing to the head node of the student list
+// theStudent is the pointer pointing to the StudentList
+// id is the student's id who want to change the information, also the student who is logging in
 void changePersonalInformation(Student* students, StudentList* theStudent, unsigned int id){
     Student* tmp = students;
     char* username = (char*)malloc(sizeof(char));
@@ -66,6 +71,12 @@ void changePersonalInformation(Student* students, StudentList* theStudent, unsig
     password = NULL;
 }
 
+// to borrow a book
+// one student can only borrow at most 5 books
+// books is the pointer pointing to the head node of the book list
+// length is the number of nodes in the book list except the head node
+// borrows is the pointer pointing the first node of the borrowing information list
+// stuID is the student ID who want to borrow a book, also the student who is logging in
 void borrowABook(Book* books, unsigned int length, Student* students, BorrowInformation* borrows, unsigned int stuID){
     Student* tmp = students;
     tmp = tmp->next;
@@ -165,6 +176,9 @@ void borrowABook(Book* books, unsigned int length, Student* students, BorrowInfo
     s_bookID = NULL;
 }
 
+// to display books the student whose ID is stuID has borrowed
+// books is the pointer pointing to the first node of the book list
+// borrows is the pointer pointing to the first node of the borrowing information list
 void displayMyBooksOnLoan(Book* books, BorrowInformation* borrows, unsigned int stuID){
     BorrowInformation* tmp_borrows = borrows;
     tmp_borrows = tmp_borrows->next;
@@ -199,6 +213,12 @@ void displayMyBooksOnLoan(Book* books, BorrowInformation* borrows, unsigned int 
     }
 }
 
+// to return a book to the library
+// books is the pointer pointing to the head node of the book list
+// length is the number of nodes in the book list except the head node
+// borrows is the pointer pointing the first node of the borrowing information list
+// students is the pointer pointing to the head node of the student list
+// stuID is the student ID who want to return a book, also the student who is logging in
 void returnABook(Book* books, unsigned int length, Student* students, BorrowInformation* borrows, unsigned int stuID){
     Student* tmp_students = students;
     tmp_students = tmp_students->next;
@@ -288,6 +308,7 @@ void returnABook(Book* books, unsigned int length, Student* students, BorrowInfo
     }
 }
 
+// the main menu after a reader logging in
 void readerMenu(BookList* theBook, StudentList* theStudent, BorrowInformation* borrows){
     int readerLogin = 0;
     char* option = (char*)malloc(sizeof(char));
@@ -332,6 +353,8 @@ void readerMenu(BookList* theBook, StudentList* theStudent, BorrowInformation* b
     }else{
         printf("This username has not been registered!\n");
     }
+
+    // free the space in the heap which will not be used
     free(inputUsername);
     inputUsername = NULL;
     free(inputPassword);
@@ -369,25 +392,26 @@ void readerMenu(BookList* theBook, StudentList* theStudent, BorrowInformation* b
         scanf("%s", option);
 
         if (strcmp(option, "1") == 0)
-            showListBooks(theBook->list, theBook->length);
+            showListBooks(theBook->list, theBook->length); // show all books
         else if (strcmp(option, "2") == 0)
-            searchBooksMain(theBook->list, theBook);
+            searchBooksMain(theBook->list, theBook); // search books
         else if (strcmp(option, "3") == 0)
-            displayAvailableBooks(theBook->list, theBook->length);
+            displayAvailableBooks(theBook->list, theBook->length); // display available books which can be borrowed
         else if (strcmp(option, "4") == 0)
-            borrowABook(theBook->list, theBook->length, theStudent->list, borrows, currentID);
+            borrowABook(theBook->list, theBook->length, theStudent->list, borrows, currentID); // borrow a book
         else if (strcmp(option, "6") == 0)
-            displayMyBooksOnLoan(theBook->list, borrows, currentID);
+            displayMyBooksOnLoan(theBook->list, borrows, currentID); // display books which have been borrowed by the current reader
         else if (strcmp(option, "5") == 0)
-            returnABook(theBook->list, theBook->length, theStudent->list, borrows, currentID);
+            returnABook(theBook->list, theBook->length, theStudent->list, borrows, currentID); // return a book 
         else if (strcmp(option, "7") == 0)
-            changePersonalInformation(theStudent->list, theStudent, currentID);
+            changePersonalInformation(theStudent->list, theStudent, currentID); // change personal information
         else if (strcmp(option, "8") == 0)
             readerLogin = 0;
         else
             printf("Unknown option!\n");
     }
 
+    // free the space in the heap which will not be used
     free(option);
     option = NULL;
 }

@@ -13,6 +13,9 @@ char* librarianUsername;
 char* librarianPassword;
 
 // initialize the library, load data to the data structure
+// theBook is the pointer pointing to the BookList
+// theStudent is also the pointer pointing to the StudentList
+// borrows is also the pointer pointing to the first node of the borrowing information list
 void initLibrary(BookList* theBook, StudentList* theStudent, BorrowInformation* borrows) {
     theBook->length = 0;
     theBook->list = (Book*)malloc(sizeof(Book));
@@ -61,6 +64,10 @@ void initLibrary(BookList* theBook, StudentList* theStudent, BorrowInformation* 
 }
 
 // load the books from the txt to the book list
+// the file is what you want to read
+// theBook is a pointer pointing to BookList
+// books is a pointer pointing to the first node of the book list
+// return 0 if loaded successfully
 int load_books(FILE* file, Book* books, BookList* theBook){
     Book* tmp;
 
@@ -85,6 +92,10 @@ int load_books(FILE* file, Book* books, BookList* theBook){
 }
 
 //load the information of students from the students.txt
+// the file is what you want to read
+// theStudent is a pointer pointing to StudentList
+// students is a pointer pointing to the first node of the student list
+// return 0 if loaded successfully
 int load_students(FILE* file, Student* students, StudentList* theStudent){
     Student* tmp;
 
@@ -108,6 +119,9 @@ int load_students(FILE* file, Student* students, StudentList* theStudent){
 }
 
 // load the books' information on loan from the borrowInformation.txt
+// the file is what you want to read
+// borrows is the pointer pointing to the borrowing information list
+// return 0 if loaded successfully
 int load_borrowInformation(FILE* file, BorrowInformation* borrows){
     BorrowInformation* tmp;
 
@@ -126,6 +140,10 @@ int load_borrowInformation(FILE* file, BorrowInformation* borrows){
 
 
 // store books to txt
+// the file is what you want to write
+// theBook is a pointer pointing to BookList
+// books is a pointer pointing to the first node of the book list
+// return 0 if store successfully
 int store_books(FILE* file, Book* books, BookList* theBook){
     Book* tmp = books;
     for (int i = 0; i < theBook->length; i ++){
@@ -136,6 +154,11 @@ int store_books(FILE* file, Book* books, BookList* theBook){
     return 0;
 }
 
+// store readers to txt
+// the file is what you want to write
+// theStudent is a pointer pointing to StudentList
+// students is a pointer pointing to the first node of the student list
+// return 0 if store successfully
 int store_readers(FILE* file, Student* students, StudentList* theStudent){
     Student* tmp = students;
     for (int i = 0; i < theStudent->length; i ++){
@@ -146,6 +169,10 @@ int store_readers(FILE* file, Student* students, StudentList* theStudent){
     return 0;
 }
 
+// store borrowing informaiton to txt
+// the file is what you want to write
+// borrows is the pointer pointing to the borrowing information list
+// return 0 if store successfully
 int store_borrowInformation(FILE* file, BorrowInformation* borrows){
     BorrowInformation* tmp = borrows;
     tmp = tmp->next;
@@ -157,6 +184,10 @@ int store_borrowInformation(FILE* file, BorrowInformation* borrows){
     return 0;
 }
 
+// register an account for a reader
+// the id should not be same to id registered and the length of password should not less than 6
+// students is a pointer pointing to the head node of students of the student list
+// theStudent is a pointer pointing to the StudentList
 void registerAccounts(Student* students, StudentList* theStudent, unsigned int id, char* name, char* username, char* password){
     tailInsertStudents(students);
     theStudent->length ++;
@@ -170,6 +201,7 @@ void registerAccounts(Student* students, StudentList* theStudent, unsigned int i
     strcpy(tmp->password, password);
 }
 
+// the main entrance to register an account for a reader
 void registerAccountsMain(StudentList* theStudent){
     char* s_id = (char*)malloc(sizeof(char));
     char* name = (char*)malloc(sizeof(char));
@@ -275,6 +307,8 @@ void registerAccountsMain(StudentList* theStudent){
 }
 
 // the library main menu
+// initialize the information reading at first and store them at last
+// initialize the book list, student list and borrowing information at first and destroy them at last
 void libraryMenu(void){
     int libraryOpen = 1;
     char* option = (char*)malloc(sizeof(char));
@@ -308,23 +342,23 @@ void libraryMenu(void){
         getchar();
         if (strcmp(option, "1") == 0){
             printf("\n     | * - * - * Librarian login * - * - * |\n");
-            librarianMenu(theBook, theStudent);
+            librarianMenu(theBook, theStudent); // go to the main menu of librarians
         } 
         else if (strcmp(option, "2") == 0){
             printf("\n     | * - * - * Reader login * - * - * |\n");
-            readerMenu(theBook, theStudent, borrows);
+            readerMenu(theBook, theStudent, borrows); // go to the main menu of readers
         }
         else if (strcmp(option, "3") == 0){
             printf("\n| * - * - * Register an account * - * - * |\n");
-            registerAccountsMain(theStudent);
+            registerAccountsMain(theStudent); // register an account for a reader
         }     
         else if (strcmp(option, "4") == 0){
             printf("\n| * - * - * Search for a book * - * - * |\n");
-            searchBooksMain(theBook->list, theBook);
+            searchBooksMain(theBook->list, theBook); // search books
         }
         else if (strcmp(option, "5") == 0){
             printf("\n          | * - * - * Display all books * - * - * |\n");
-            showListBooks(theBook->list, theBook->length);
+            showListBooks(theBook->list, theBook->length); // show all books
         }
         else if (strcmp(option, "6") == 0){
             printf("Bye~\n");
@@ -336,6 +370,7 @@ void libraryMenu(void){
 
     }
 
+    // store the book list to txt
     FILE* fp_b = fopen("books.txt", "w");
     if (!fp_b){
         printf("wrong to store books!\n");
@@ -347,6 +382,7 @@ void libraryMenu(void){
         fclose(fp_b);
     }
 
+    // store the reader list to txt
     FILE* fp_r = fopen("readers.txt", "w");
     if (!fp_r){
         printf("wrong to store readers!\n");
@@ -358,6 +394,7 @@ void libraryMenu(void){
         fclose(fp_r);
     }
 
+    // store the borrowing information list to txt
     FILE* fp_bo = fopen("borrowInformation.txt", "w");
     if (!fp_bo){
         printf("Storing borrowing information failed!\n");
@@ -369,6 +406,7 @@ void libraryMenu(void){
         fclose(fp_bo);
     }
 
+    // store the librarian information to txt
     FILE* fp_l = fopen("librarian.txt", "w");
     if (!fp_l){
         printf("Wrong to store librarian information!\n");
@@ -380,6 +418,7 @@ void libraryMenu(void){
         fclose(fp_l);
     }
 
+    // free space in heap
     free(option);
     option = NULL;
 
