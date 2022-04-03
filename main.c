@@ -4,7 +4,7 @@
 
 int main(void){
 	printf("\n  Welcome to our library~\n");
-	libraryMenu();
+	libraryMenu(); // go to the main menu of the library
 
 	return 0;
 }

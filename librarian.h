@@ -3,6 +3,7 @@
 
 void librarianMenu(BookList* theBook, StudentList* theStudent);
 
+
 void addNewBook(Book* books, BookList* theBook, unsigned int id, char* title, char* authors, unsigned int year, unsigned int copies);
 
 void searchBooksMain(Book* books, BookList* theBook);
