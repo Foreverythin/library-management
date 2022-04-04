@@ -1,43 +1,20 @@
-# LibraryManagement
+## Library Management
 
+#### Introduction
++ Programming Project cwk1
++ a software based on the command line
 
+#### Basic structure and functions
 
-# 记得考虑load和store的返回值  然后写注释！！！！  
+![image-20220404132627200](README.assets/image-20220404132627200.png)
 
+#### How to use:
 
-
-#### 介绍
-Programming Project cwk1
-
-#### 软件架构
-软件架构说明
-
-
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+1.  In the root directory of the project, enter  'make'  in the command line. Then, the executable file named 'library' will be produced in the bin directory. 
+2.  In the bin directory, use command './library' to run the executable file 'library'.
+3.  At the beginning, there is no book and no reader registered in the library. The librarian need to log in the system to add books. After quiting the system at first, the 'books.txt' will be produced in the bin directory, which is used to record books information.
+3.  In the bin directory, the 'readers.txt', 'librarian.txt', 'borrowInformation.txt' have already been there, which are separately used to record readers' information, the librarian's information and the lent books' information. 
+3.  Don't change or remove the txt files in the bin directory!!!!!
+3.  The student ID and book ID are set in [1, 999]!!
+3.  The password for readers and the library must have at least length 6!!
+3.  A reader can only borrow one book for one kind, and at most 5 books!!

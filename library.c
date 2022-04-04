@@ -353,11 +353,11 @@ void libraryMenu(void){
             registerAccountsMain(theStudent); // register an account for a reader
         }     
         else if (strcmp(option, "4") == 0){
-            printf("\n| * - * - * Search for a book * - * - * |\n");
+            printf("\n   | * - * - * Search for a book * - * - * |\n");
             searchBooksMain(theBook->list, theBook); // search books
         }
         else if (strcmp(option, "5") == 0){
-            printf("\n          | * - * - * Display all books * - * - * |\n");
+            printf("\n   | * - * - * Display all books * - * - * |\n");
             showListBooks(theBook->list, theBook->length); // show all books
         }
         else if (strcmp(option, "6") == 0){

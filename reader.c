@@ -381,7 +381,7 @@ void readerMenu(BookList* theBook, StudentList* theStudent, BorrowInformation* b
         printf(" | *                                        * |\n");
         printf(" | | [5] RETURN A BOOK                      | |\n");
         printf(" | *                                        * |\n");
-        printf(" | | [6] DISPLAY MY BOOKS ON LOAN           | |\n");
+        printf(" | | [6] DISPLAY BOOKS ON MY LOAN           | |\n");
         printf(" | *                                        * |\n");
         printf(" | | [7] CHANGE PERSONAL INFORMATION        | |\n");
         printf(" | *                                        * |\n");

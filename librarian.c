@@ -959,7 +959,7 @@ void librarianMenu(BookList* theBook, StudentList* theStudent){
         printf(" | *                                        * |\n");
         printf(" | | [6] DISPLAY ALL READERS                | |\n");
         printf(" | *                                        * |\n");
-        printf(" | | [7] SEARCH SOME READER                 | |\n");
+        printf(" | | [7] SEARCH FOR READERS                 | |\n");
         printf(" | *                                        * |\n");
         printf(" | | [8] DISPLAY BOOKS ON LOAN              | |\n");
         printf(" | *                                        * |\n");
