@@ -7,6 +7,10 @@
 #include "listManagement.h"
 #include "utility.h"
 
+// add new books to the library
+// all information of the books will be completed
+// books is the pointer pointing to the first node of the book list
+// theBook is the pointer pointing to BookList 
 void addNewBook(Book* books, BookList* theBook, unsigned int id, char* title, char* authors, unsigned int year, unsigned int copies){
     tailInsertBooks(books);
     theBook->length++;
@@ -21,6 +25,10 @@ void addNewBook(Book* books, BookList* theBook, unsigned int id, char* title, ch
     tmp->copies = copies;
 }
 
+// find a book by book ID
+// books is the pointer pointing to the first node of the book list
+// theBook is the pointer pointing to BookList 
+// return a book list which contains the books found
 BookList find_book_by_id (Book* books, BookList* theBook, unsigned int id){
     Book* tmp = books;
     BookList searchBookList;
@@ -49,6 +57,10 @@ BookList find_book_by_id (Book* books, BookList* theBook, unsigned int id){
     return searchBookList;
 }
 
+// find a book by the book title
+// books is the pointer pointing to the first node of the book list
+// theBook is the pointer pointing to BookList 
+// return a book list which contains the books found
 BookList find_book_by_title (Book* books, BookList* theBook, const char *title){
     Book* tmp = books;
     BookList searchBookList;
@@ -77,6 +89,10 @@ BookList find_book_by_title (Book* books, BookList* theBook, const char *title){
     return searchBookList;
 }
 
+// find a book by the author
+// books is the pointer pointing to the first node of the book list
+// theBook is the pointer pointing to BookList 
+// return a book list which contains the books found
 BookList find_book_by_author (Book* books, BookList* theBook, const char *authors){
     Book* tmp = books;
     BookList searchBookList;
@@ -105,6 +121,10 @@ BookList find_book_by_author (Book* books, BookList* theBook, const char *author
     return searchBookList;
 }
 
+// find a book by year of publication
+// books is the pointer pointing to the first node of the book list
+// theBook is the pointer pointing to BookList 
+// return a book list which contains the books found
 BookList find_book_by_year (Book* books, BookList* theBook, unsigned int year){
     Book* tmp = books;
     BookList searchBookList;
@@ -133,6 +153,10 @@ BookList find_book_by_year (Book* books, BookList* theBook, unsigned int year){
     return searchBookList;
 }
 
+// find a book by the number of copies in the library
+// books is the pointer pointing to the first node of the book list
+// theBook is the pointer pointing to BookList 
+// return a book list which contains the books found
 BookList find_book_by_copies (Book* books, BookList* theBook, unsigned int copies){
     Book* tmp = books;
     BookList searchBookList;
@@ -161,6 +185,9 @@ BookList find_book_by_copies (Book* books, BookList* theBook, unsigned int copie
     return searchBookList;
 }
 
+// find all readers whose name is 'name', and print them out
+// students is the pointer pointing to the first node of the student list
+// theStudent is the pointer pointing to the StudentList
 void searchReadersName(Student* students, StudentList* theStudent, char* name){
     if (theStudent->length == 0)
         printf("\nThere is no book in the library now!\n");
@@ -193,6 +220,9 @@ void searchReadersName(Student* students, StudentList* theStudent, char* name){
     }
 }
 
+// find all readers whose id is 'id', and print them out
+// students is the pointer pointing to the first node of the student list
+// theStudent is the pointer pointing to the StudentList
 void searchReadersID(Student* students, StudentList* theStudent, unsigned int id){
     if (theStudent->length == 0)
         printf("\nThere is no reader registered in the library now!\n");
@@ -225,6 +255,10 @@ void searchReadersID(Student* students, StudentList* theStudent, unsigned int id
     }   
 }
 
+// the main entrance to find books
+// books can by searched by id, title, name of authors, year, number of copies
+// books is the pointer pointing to the first node of the book list
+// theBook is the pointer pointing to BookList 
 void searchBooksMain(Book* books, BookList* theBook){
     if (theBook->length == 0)
         printf("\nThere is no book in the library!\n");
@@ -431,6 +465,9 @@ void searchBooksMain(Book* books, BookList* theBook){
     }   
 }
 
+// the main entrance to search readers
+// readers can be searched by id, name
+// theStudent is the pointer pointing to the StudentList
 void searchReadersMain(StudentList* theStudent){
     if (theStudent->length == 0){
         printf("\nThere is no reader registered in the library!\n");
@@ -477,6 +514,11 @@ void searchReadersMain(StudentList* theStudent){
     }   
 }
 
+// the main entrance to add books
+// when the books to be added have already in the library, then the number of copies will only be provided to be entered
+// otherwise, all information will be provided to entered---add a new kind of books to the library
+// books is the pointer pointing to the first node of the book list
+// theBook is the pointer pointing to BookList 
 void addBooksMain(Book* books, BookList* theBook){
     char* s_id = (char*)malloc(sizeof(char));
     char* title = (char*)malloc(sizeof(char));
@@ -598,6 +640,10 @@ void addBooksMain(Book* books, BookList* theBook){
     authors = NULL;
 }
 
+// remove books by ID
+// books is the pointer pointing to the first node of the book list
+// theBook is the pointer pointing to BookList 
+// when the book is lent out, then this kind of books can not be removed
 void removeBooksID(Book* books, BookList* theBook, unsigned int id){
     BookList tmp;
     tmp = find_book_by_id(theBook->list, theBook, id);
@@ -657,6 +703,9 @@ void removeBooksID(Book* books, BookList* theBook, unsigned int id){
     tmp.list = NULL;
 }
 
+// the main entrance to remove books
+// books is the pointer pointing to the first node of the book list
+// theBook is the pointer pointing to BookList
 void removeBooksMain(Book* books, BookList* theBook){
     showListBooks(books, theBook->length);
     char* s_id = (char*)malloc(sizeof(char));
@@ -681,6 +730,9 @@ void removeBooksMain(Book* books, BookList* theBook){
     }
 }
 
+// change the book's information
+// books is the pointer pointing to the first node of the book list
+// the title, authors and year can be changed
 void changeInformationBooks(Book* books){
     char* s_id = (char*)malloc(sizeof(char));
     int numChanges = 0;
@@ -781,6 +833,7 @@ void changeInformationBooks(Book* books){
     }
 }
 
+// change the librarian's password
 void changePassword(void){
     char* password = (char*)malloc(sizeof(char));
     printf("What is the new password?\n->");
@@ -797,6 +850,9 @@ void changePassword(void){
     printf("Successfully Update the password!\n");
 }
 
+// display books which can be lent
+// books is the pointer pointing to the first node of the book list
+// length is the number of nodes of the book list except the head node
 void displayAvailableBooks(Book* books, unsigned int length){
     if (length == 0){
         printf("\nThere is no book in the library!\n");
@@ -822,6 +878,9 @@ void displayAvailableBooks(Book* books, unsigned int length){
     }
 }
 
+// display books which are lent
+// books is the pointer pointing to the first node of the book list
+// length is the number of nodes of the book list except the head node
 void displayBorrowedBooks(Book* books, unsigned int length){
     if (length == 0){
         printf("\nThere is no book in the library!\n");
@@ -847,6 +906,9 @@ void displayBorrowedBooks(Book* books, unsigned int length){
     }
 }
 
+// the main menu of the librarian
+// theBook is the pointer pointing to the BookList
+// theStudent is the pointer pointing to the StudentList
 void librarianMenu(BookList* theBook, StudentList* theStudent){
     int librarianLogin = 1;
     char* option = (char*)malloc(sizeof(char));
@@ -873,6 +935,8 @@ void librarianMenu(BookList* theBook, StudentList* theStudent){
             break;
         }
     }
+
+    // free space in heap
     free(inputUsername);
     inputUsername = NULL;
     free(inputPassword);
@@ -935,6 +999,7 @@ void librarianMenu(BookList* theBook, StudentList* theStudent){
             printf("Unknown option!\n");
     }
 
+    // free space in heap
     free(option);
     option = NULL;
 }
