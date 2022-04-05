@@ -613,8 +613,6 @@ void addBooksMain(Book* books, BookList* theBook){
             scanf("%s", s_copies);
         }
         copies = (unsigned)atoi(s_copies);
-        t->copies = copies;
-        t->id = id;
         while (copies == 0){
             printf("The number of copies must be larger than 0!\n");
             printf("The book's copies: \n->");
@@ -626,6 +624,8 @@ void addBooksMain(Book* books, BookList* theBook){
             }
             copies = (unsigned)atoi(s_copies);
         }
+        t->copies = copies;
+        t->id = id;
         free(s_year);
         s_year = NULL;
         free(s_copies);

@@ -102,7 +102,7 @@ void borrowABook(Book* books, unsigned int length, Student* students, BorrowInfo
     }else{
         unsigned int bookID = (unsigned)atoi(s_bookID);
         if (bookID<=0 || bookID>999){
-            printf("The ID number must be in (0, 1000)!\n");
+            printf("The ID number must be in [1, 999]!\n");
             free(s_bookID);
             s_bookID = NULL;
             return;
@@ -243,7 +243,7 @@ void returnABook(Book* books, unsigned int length, Student* students, BorrowInfo
     }else{
         unsigned int bookID = (unsigned)atoi(s_bookID);
         if (bookID<=0 || bookID>999){
-            printf("The ID number must be in (0, 1000)!\n");
+            printf("The ID number must be in [1, 999]!\n");
             free(s_bookID);
             s_bookID = NULL;
             return;

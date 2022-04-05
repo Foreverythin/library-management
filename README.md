@@ -1,12 +1,21 @@
 ## Library Management
 
 #### Introduction
+
 + Programming Project cwk1
 + a software based on the command line
+
+
+
+
 
 #### Basic structure and functions
 
 ![image-20220404132627200](README.assets/image-20220404132627200.png)
+
+
+
+
 
 #### How to use:
 
@@ -18,3 +27,22 @@
 3.  **The student ID and book ID are set in [1, 999]!!**
 3.  **The password for readers and the library must have at least length 6!!**
 3.  **A reader can only borrow one book for one kind, and at most 5 books!!**
+3.  <u>**The origin username of the librarian: leeds123**</u>
+
+​	   <u>**The origin password of the librarian: leeds123**</u>
+
+
+
+
+
+#### The remote repository:
+
+**https://gitee.com/sandwich-eaters-on-the-moon/library-management**
+
+**For git clone:**
+
++ **HTTPS:    https://gitee.com/sandwich-eaters-on-the-moon/library-management.git**
++ **SSH :    git@gitee.com:sandwich-eaters-on-the-moon/library-management.git**
+
+
+
