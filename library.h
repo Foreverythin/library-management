@@ -4,13 +4,13 @@
 // the library main menu
 // initialize the information reading at first and store them at last
 // initialize the book list, student list and borrowing information at first and destroy them at last
-void libraryMenu(void);
+void libraryMenu(char* bookFile);
 
 // initialize the library, load data to the data structure
 // theBook is the pointer pointing to the BookList
 // theStudent is also the pointer pointing to the StudentList
 // borrows is also the pointer pointing to the first node of the borrowing information list
-void initLibrary(BookList* theBook, StudentList* thstudent, BorrowInformation* borrows);
+void initLibrary(char* bookFile, BookList* theBook, StudentList* thstudent, BorrowInformation* borrows);
 
 // the main entrance to register an account for a reader
 void registerAccountsMain(StudentList* theStudent);

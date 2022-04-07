@@ -16,7 +16,7 @@ char* librarianPassword;
 // theBook is the pointer pointing to the BookList
 // theStudent is also the pointer pointing to the StudentList
 // borrows is also the pointer pointing to the first node of the borrowing information list
-void initLibrary(BookList* theBook, StudentList* theStudent, BorrowInformation* borrows) {
+void initLibrary(char* bookFile, BookList* theBook, StudentList* theStudent, BorrowInformation* borrows) {
     theBook->length = 0;
     theBook->list = (Book*)malloc(sizeof(Book));
     Book* books = theBook->list;
@@ -36,19 +36,22 @@ void initLibrary(BookList* theBook, StudentList* theStudent, BorrowInformation* 
         fclose(fp_b);
     }
     
+    librarianUsername = (char*)malloc(sizeof(char));
+    librarianPassword = (char*)malloc(sizeof(char));
     FILE* fp_l = fopen("librarian.txt", "r");
     if (!fp_l){
-        printf("error opening of librarian.txt\n");
+        char uName[10] = "leeds123";
+        char uPassword[10] = "leeds123";
+        strcpy(librarianUsername, uName);
+        strcpy(librarianPassword, uPassword);
     }else{
-        librarianUsername = (char*)malloc(sizeof(char));
-        librarianPassword = (char*)malloc(sizeof(char));
         fscanf(fp_l, "%s %s", librarianUsername, librarianPassword);
         fclose(fp_l);    
     }
 
     FILE* fp_r = fopen("readers.txt", "r");
     if (!fp_r){
-        printf("Error opening of readers.txt\n");
+        
     }else{
         load_students(fp_r, students, theStudent);
         fclose(fp_r);
@@ -56,7 +59,7 @@ void initLibrary(BookList* theBook, StudentList* theStudent, BorrowInformation* 
 
     FILE* fp_bo = fopen("borrowInformation.txt", "r");
     if (!fp_bo){
-        printf("Error opening of borrowInformation.txt\n");
+        
     }else{
         load_borrowInformation(fp_bo, borrows);
         fclose(fp_bo);
@@ -309,13 +312,13 @@ void registerAccountsMain(StudentList* theStudent){
 // the library main menu
 // initialize the information reading at first and store them at last
 // initialize the book list, student list and borrowing information at first and destroy them at last
-void libraryMenu(void){
+void libraryMenu(char* bookFile){
     int libraryOpen = 1;
     char* option = (char*)malloc(sizeof(char));
     BookList* theBook = (BookList*)malloc(sizeof(BookList));
     StudentList* theStudent = (StudentList*)malloc(sizeof(StudentList)); 
     BorrowInformation* borrows = (BorrowInformation*)malloc(sizeof(BorrowInformation));
-    initLibrary(theBook, theStudent, borrows);
+    initLibrary(bookFile, theBook, theStudent, borrows);
     
     while (libraryOpen) {
         printf("\n");
