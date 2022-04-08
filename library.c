@@ -27,7 +27,7 @@ void initLibrary(char* bookFile, BookList* theBook, StudentList* theStudent, Bor
     students->next = NULL;
     borrows->next = NULL;
 
-    FILE* fp_b = fopen("books.txt", "r");
+    FILE* fp_b = fopen(bookFile, "r");
     if (!fp_b) {
         printf("\n");
     }
@@ -374,7 +374,7 @@ void libraryMenu(char* bookFile){
     }
 
     // store the book list to txt
-    FILE* fp_b = fopen("books.txt", "w");
+    FILE* fp_b = fopen(bookFile, "w");
     if (!fp_b){
         printf("wrong to store books!\n");
     }else{
