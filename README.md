@@ -19,7 +19,7 @@
 
 #### 3. How to use:   ( IMPROTANT!!!!!!!!! )
 
-1.  **In the root directory of the project, enter  'make'  in the command line. Then, the executable file named 'library' will be produced in the bin directory. **
+1.  **In the root directory of the project, enter  'make all'  in the command line. Then, the executable file named 'library' will be produced in the bin directory. **
 2.  **In the bin directory, use command './library <books.txt>' to run the executable file 'library'. (the <books.txt> is a file which stores the library's books.)At the beginning, you just need to touch a kind of this file. You don't need to add information into it!!!!**
 3.  **After quitting the program, the bin directory will produce 'readers.txt', 'librarian.txt', 'borrowInformation.txt', which are separately used to record readers' information, the librarian's information and the lent books' information of this library.**
 4.  **Once the <books.txt> file is touched and the executable has been run, DO NOT RENAME, REMOVE, OR CHANGE THE TXT FILES!!!!!! **

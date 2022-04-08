@@ -23,6 +23,9 @@ $(EXE): $(OBJ)
 
 # clean up and remove object code and executable: type 'make clean'
 
+all: $(EXE)
+.PHONY: all
+
 clean:
 	rm -f $(OBJ) $(EXE)
 
