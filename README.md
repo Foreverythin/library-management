@@ -27,7 +27,7 @@
 6.  **The student ID and book ID are set in [1, 999]!!**
 7.  **The password for readers and the library must have at least length 6!!**
 8.  **A reader can only borrow one book for one kind, and at most 5 books!!**
-8.  **Any names, usernames, numbers, passwords should not include spaces inside it!**
+8.  **Any names, usernames, numbers, passwords should not include spaces inside it! You can use '_' to replace the space.**
 3.  <u>**The origin username of the librarian: leeds123**</u>
 
 ​	   <u>**The origin password of the librarian: leeds123    (you can change it in the program)**</u>
